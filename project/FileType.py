@@ -4,6 +4,12 @@ class Istream:
             self.data = file.read()
         self.index = 0
 
+    def Back(self, how: int):
+        self.index = max(0, self.index - how)
+
+    def Next(self, how: int):
+        self.index = min(len(self.data), self.index + how)
+
     def GetChar(self) -> str:
         self.index += 1
         return self.data[self.index - 1]
@@ -30,6 +36,16 @@ class Istream:
             q = self.GetChar()
         return ans
 
+    def GetBool(self, count: int = 8) -> list[bool]:
+        ans = [False] * count
+        q = ord(self.GetChar())
+        i = 0
+        while q != 0 and count != i:
+            ans[count - 1 - i] = bool(q & 1)
+            i += 1
+            q >>= 1
+        return ans
+
 
 class Ostream:
     def __init__(self, path: str):
@@ -51,6 +67,14 @@ class Ostream:
         for i in string:
             self.WriteChar(i)
         self.WriteChar(chr(stop))
+
+    def WriteBool(self, bools: list[bool]):
+        if len(bools) > 8: raise ValueError('Слишком много')
+        q = 0
+        for i in bools:
+            q <<= 1
+            q |= i
+        self.WriteChar(chr(q))
 
     def Close(self):
         self.file.close()
