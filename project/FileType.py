@@ -81,7 +81,7 @@ class Ostream:
 
 
 class FileType:
-    def Save(self):
+    def Save(self, path: str, name: str):
         pass
 
     def Load(self):

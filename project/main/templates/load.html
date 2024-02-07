@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Load</title>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" class="post-form">
+        {% csrf_token %}
+        {{ form.File.label }}: {{ form.File }} <br>
+        {{ form.Type.label }}: {{ form.Type }} <br>
+        <input type="submit" value="Отправить">
+    </form>
+</body>
+</html>

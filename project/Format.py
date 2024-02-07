@@ -1,3 +1,5 @@
+from FileType import FileType
+
 class Format:
     def __init__(self, name: str, fun):
         self.name = name
@@ -5,9 +7,12 @@ class Format:
         self.fun = fun
 
 
+def test(i):
+    return FileType()
+
 DEFAULT = '.txt'
 ARRAY = {
-
+    '.txt': Format('.txt', test)
 }
 
 
