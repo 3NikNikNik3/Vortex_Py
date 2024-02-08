@@ -3,7 +3,7 @@ from random import randint as rand
 from main.models import User
 from datetime import datetime
 from main.forms import LoadFile
-from Format import Get
+from Format import Get, LoadFromFile
 
 # Create your views here.
 def random_key() -> str:
@@ -29,10 +29,19 @@ def Load(req):
     if req.method == 'POST':
         form = LoadFile(req.POST, req.FILES)
         if not form.is_valid():
-            #! Загрузка
-            pass
-            #type = Get(form.Type)
-            #print(req.FILES['File'])
+            user = User.objects.filter(key=key)
+            if len(user) != 1:
+                return 'error'
+            user = user[0]
+            if form.data['Type'] != '':
+                f = Get(form.data['Type'])
+            else:
+                f = Get('.' + str(req.FILES['File']).split('.')[-1])
+            data = bytes()
+            for i in req.FILES['File'].chunks():
+                data += i
+            file = f.funFrom(data)
+            file.Save('data/' + str(user.id), f.type)
         con['form'] = form
     else:
         con['form'] = LoadFile()

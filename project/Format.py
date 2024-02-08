@@ -1,22 +1,55 @@
-from FileType import FileType
+from django.shortcuts import render
+
+from FileType import FileType, Istream
+
 
 class Format:
-    def __init__(self, name: str, fun):
+    def __init__(self, name: str, funTo, funFrom, type: int):
         self.name = name
         # функция преобразования datas в класс
-        self.fun = fun
+        self.funTo = funTo
+        self.funFrom = funFrom
+        self.type = type
 
 
 def test(i):
     return FileType()
 
-DEFAULT = '.txt'
-ARRAY = {
-    '.txt': Format('.txt', test)
-}
+
+def test_(i):
+    return bytes()
+
+
+DEFAULT = 0
+
+Formats = [
+    Format('.txt', test_, test, 0)
+]
+
+FunEdit = [
+    lambda req: render(req, 'index.html')
+]
+
+ClassEdit = [
+    FileType
+]
+
+LoadFunEdit = [
+    lambda q: FileType()
+]
 
 
 def Get(name: str) -> Format:
-    if name in ARRAY:
-        return ARRAY[name]
-    return ARRAY[DEFAULT]
+    for i in Formats:
+        if i.name == name:
+            return i
+    return Formats[DEFAULT]
+
+
+def LoadFromFile(path: str) -> (int, FileType):
+    file = Istream(path)
+    file.Next(3)
+    type = file.GetInt(2)
+    ans = ClassEdit[type]()
+    ans.Load(file)
+    return type, ans

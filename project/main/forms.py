@@ -1,9 +1,9 @@
 from django import forms
-from Format import ARRAY
+from Format import Formats
 
 TYPES = {'': 'Автоопределение'}
-for i in ARRAY:
-    TYPES.update({i: i})
+for i in Formats:
+    TYPES.update({i.name: i.name})
 
 class LoadFile(forms.Form):
     File = forms.FileField(label='Файл')

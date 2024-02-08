@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Istream:
     def __init__(self, path: str):
         with open(path, 'r') as file:
@@ -81,9 +83,19 @@ class Ostream:
 
 
 class FileType:
-    def Save(self, path: str, name: str):
+    def Save(self, path: str, type: int):
+        file = Ostream(path)
+        date = datetime.now()
+        file.WriteInt(date.day, 1)
+        file.WriteInt(date.month, 1)
+        file.WriteInt(date.year - 2000, 1)
+        file.WriteInt(type, 2)
+        self.Save_(file)
+        file.Close()
+
+    def Save_(self, file: Ostream):
         pass
 
-    def Load(self):
+    def Load(self, file: Istream):
         pass
 
