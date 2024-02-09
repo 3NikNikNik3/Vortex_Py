@@ -27,7 +27,7 @@ Formats = [
 ]
 
 FunEdit = [
-    lambda req: render(req, 'index.html')
+    lambda req, file: render(req, 'test.html')
 ]
 
 ClassEdit = [
