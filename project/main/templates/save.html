@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Save</title>
+</head>
+<body>
+    {% load static %}
+    <h1>Как скачать?</h1>
+    <form id="form">
+        <p><input type="text" id="name_" name="name">
+        <label for="name_">Имя файла</label></p>
+
+        <p><select name="type" id="type_">
+            {% for i in types %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+        <label for="type_">Расширение файла</label></p>
+
+        <input name="save" hidden>
+
+        <input type="submit" value="Скачать">
+    </form>
+
+    <button id="button_">Обратно</button>
+
+    <script src="{% static 'js/save.js' %}"></script>
+</body>
+</html>

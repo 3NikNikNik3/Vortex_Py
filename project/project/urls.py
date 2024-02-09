@@ -20,5 +20,6 @@ from main import views as main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('file/load', main.Load)
+    path('load', main.Load),
+    path('save', main.Save)
 ]
