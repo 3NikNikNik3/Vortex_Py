@@ -6,7 +6,7 @@ from random import randint as rand
 from main.models import User
 from datetime import datetime
 from main.forms import LoadFile
-from Format import Get, LoadFromFile, Formats, FunEdit, LoadFunEdit
+from Format import Get, LoadFromFile, Formats, Types
 from FileType import Istream
 
 
@@ -105,10 +105,10 @@ def Edit(req):
         if 'save' in req.POST:
             file = Istream('data/' + str(user.id))
             file.Next(3)
-            type = file.GetInt(2)
-            file = LoadFunEdit[type](req.POST)
+            type = file.GetStr(1)
+            file = Types[type].LoadFunEdit(req.POST)
             file.Save('data/' + str(user.id), type)
         else: type, file = LoadFromFile('data/' + str(user.id))
     else: type, file = LoadFromFile('data/' + str(user.id))
 
-    return FunEdit[type](req, file)
+    return Types[type].FunEdit(req, file)

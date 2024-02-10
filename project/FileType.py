@@ -36,6 +36,7 @@ class Istream:
         while ord(q) != stop and not self.Eof():
             ans += q
             q = self.GetChar()
+        if ord(q) != stop: ans += q
         return ans
 
     def GetBool(self, count: int = 8) -> list[bool]:
@@ -84,13 +85,13 @@ class Ostream:
 
 
 class FileType:
-    def Save(self, path: str, type: int):
+    def Save(self, path: str, type: str):
         file = Ostream(path)
         date = datetime.now()
         file.WriteInt(date.day, 1)
         file.WriteInt(date.month, 1)
         file.WriteInt(date.year - 2000, 1)
-        file.WriteInt(type, 2)
+        file.WriteStr(type, 1)
         self.Save_(file)
         file.Close()
 

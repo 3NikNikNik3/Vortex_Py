@@ -6,39 +6,29 @@ from text import views as Text
 
 
 class Format:
-    def __init__(self, name: str, funTo, funFrom, type: int):
+    def __init__(self, name: str, funTo, funFrom, type: str):
         self.name = name
         # функция преобразования datas в класс
         self.funTo = funTo
         self.funFrom = funFrom
         self.type = type
 
-
-def test(i):
-    return FileType()
-
-
-def test_(i):
-    return bytes()
+class Type:
+    def __init__(self, funedit, loadfunedit, classedit):
+        self.FunEdit = funedit
+        self.ClassEdit = classedit
+        self.LoadFunEdit = loadfunedit
 
 
 DEFAULT = 0
 
 Formats = [
-    Format('.txt', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 0)
+    Format('.txt', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text')
 ]
 
-FunEdit = [
-    Text.EditTxt
-]
-
-ClassEdit = [
-    Text.TxtType
-]
-
-LoadFunEdit = [
-    Text.TxtLoadFunEdit
-]
+Types = {
+    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType)
+}
 
 
 def Get(name: str) -> Format:
@@ -51,7 +41,7 @@ def Get(name: str) -> Format:
 def LoadFromFile(path: str) -> (int, FileType):
     file = Istream(path)
     file.Next(3)
-    type = file.GetInt(2)
-    ans = ClassEdit[type]()
+    type = file.GetStr(1)
+    ans = Types[type].ClassEdit()
     ans.Load(file)
     return type, ans
