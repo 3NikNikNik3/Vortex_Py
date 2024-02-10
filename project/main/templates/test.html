@@ -5,10 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-    <form method="post">
+    {% include 'menu_edit.html' %}
+    <form method="post" name="main_form">
         {% csrf_token %}
         <input name="test" type="text">
-        <input type="submit">
     </form>
 </body>
 </html>

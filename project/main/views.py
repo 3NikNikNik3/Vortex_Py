@@ -102,10 +102,13 @@ def Edit(req):
         return HttpResponseRedirect('/load')
 
     if req.method == 'POST':
-        file = Istream('data/' + str(user.id))
-        file.Next(3)
-        type = file.GetInt(2)
-        LoadFunEdit[type](req.POST).Save('data/' + str(user.id), type)
+        if 'save' in req.POST:
+            file = Istream('data/' + str(user.id))
+            file.Next(3)
+            type = file.GetInt(2)
+            file = LoadFunEdit[type](req.POST)
+            file.Save('data/' + str(user.id), type)
+        else: type, file = LoadFromFile('data/' + str(user.id))
+    else: type, file = LoadFromFile('data/' + str(user.id))
 
-    type, file = LoadFromFile('data/' + str(user.id))
     return FunEdit[type](req, file)
