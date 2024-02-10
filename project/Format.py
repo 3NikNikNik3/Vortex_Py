@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 from FileType import FileType, Istream
 
+from text import views as Text
+
 
 class Format:
     def __init__(self, name: str, funTo, funFrom, type: int):
@@ -23,19 +25,19 @@ def test_(i):
 DEFAULT = 0
 
 Formats = [
-    Format('.txt', test_, test, 0)
+    Format('.txt', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 0)
 ]
 
 FunEdit = [
-    lambda req, file: render(req, 'test.html')
+    Text.EditTxt
 ]
 
 ClassEdit = [
-    FileType
+    Text.TxtType
 ]
 
 LoadFunEdit = [
-    lambda q: FileType()
+    Text.TxtLoadFunEdit
 ]
 
 

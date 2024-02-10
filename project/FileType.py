@@ -65,10 +65,11 @@ class Ostream:
         for i in string:
             self.WriteChar(i)
 
-    def WriteStr(self, string: str, stop: int):
+    def WriteStr(self, string: str, stop: int = -1):
         for i in string:
             self.WriteChar(i)
-        self.WriteChar(chr(stop))
+        if stop != -1:
+            self.WriteChar(chr(stop))
 
     def WriteBool(self, bools: list[bool]):
         if len(bools) > 8: raise ValueError('Слишком много')

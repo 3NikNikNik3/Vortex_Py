@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Редактор</title>
 </head>
 <body>
     {% include 'menu_edit.html' %}
-    <form method="post" name="main_form">
+    <form id="main_form" method="post">
         {% csrf_token %}
-        <input name="test" type="text">
+        <textarea name="text">{{ text }}</textarea>
+        <input name="save" hidden>
     </form>
 </body>
 </html>
