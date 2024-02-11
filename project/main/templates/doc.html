@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Doc</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/doc.css' %}">
+</head>
+<body>
+    <div class="bor">
+        <h1>Что делать для создания типа?</h1>
+        <ul>
+            <li>
+                Создать прилижение в django с названием типа (python3 manage.py startapp name)
+            </li>
+            <li>
+                В views.py прописываем: <ol>
+                <li>Класс, хранящий весе данные файлы (пусть NameType), В нём:<ol>
+                    <li>Save_(Ostream) - Записывает все данные в Ostream</li>
+                    <li>Load(Istream) - Загружает в себя все данные из Istream</li>
+                    <li>__init__(self) - Туда поместить все переменные (по умолчанию)</li>
+                </ol></li>
+                <li>Функция преобразования Вашего класса с даннами в bytes, для загрузки (Пусть FunTo)(На каждое расширение своё)</li>
+                <li>Функция преобразует bytes в Ваш класс с даннами (пусть FunFrom)(На каждое расширение своё)</li>
+                <li>Функция преобразования POST-запроса в Ваш класс с даннами (Структуру POST-запроса вы придумываете сами) (Путь LoadFunEdit)</li>
+                <li>Функция страници редактора, почти как обычная в Django, но ещё принимающая ваш класс с данными - файл, который пользователь редактирует (Пусть EditViews)</li>
+            </ol>
+            </li>
+            <li>
+                После того, как Вы всё создадите, нужно в Format.py:
+                <ol>
+                    <li>Импортировать всё что надо</li>
+                    <li>Добавить в список Formats объекты Format, для каждого расширения свой</li>
+                    <li>Добавить в словарь Types объект класса Type, с ключём названия Вашего типа</li>
+                </ol>
+            </li>
+        </ul>
+    </div><br>
+
+    <div class="bor">
+        <h1>Istream</h1>
+        <h4>Класс призваный облегчить чтение файла</h4>
+        <p>Метады:</p>
+        <table border="1">
+            <tr><td>Название</td><td>Параметры</td><td>Что делает</td></tr>
+            <tr>
+                <td>Back</td>
+                <td>how: int</td>
+                <td>Двигает каретку назад на how</td>
+            </tr>
+            <tr>
+                <td>Next</td>
+                <td>how: int</td>
+                <td>Двигает каретку вперёд на how</td>
+            </tr>
+            <tr>
+                <td>GetChar</td>
+                <td></td>
+                <td>Возвращает один символ</td>
+            </tr>
+            <tr>
+                <td>Eof</td>
+                <td></td>
+                <td>Возвращает закончился ли файл</td>
+            </tr>
+            <tr>
+                <td>GetInt</td>
+                <td>count: int (Сколько байт на это потратить)</td>
+                <td>Возвращяет число</td>
+            </tr>
+            <tr>
+                <td>GetStrLen</td>
+                <td>len: int (Какая длина страки)</td>
+                <td>Возвращяет строку по длине</td>
+            </tr>
+            <tr>
+                <td>GetStr</td>
+                <td>stop: int (номер символа окончания(-1 - 255))</td>
+                <td>Считывает и возвращает строку до указанного символа (если -1, то до конца)</td>
+            </tr>
+            <tr>
+                <td>GetBool</td>
+                <td>count: int = 8 (кол-во bool)</td>
+                <td>Возвращает массив из bool, считанных с 1 байта</td>
+            </tr>
+        </table>
+    </div><br>
+
+    <div class="bor">
+        <h1>Ostream</h1>
+        <h4>Класс создан для упрощения записи в файл</h4>
+        <table border="1">
+            <tr><td>Название</td><td>Параметры</td><td>Что делает</td></tr>
+            <tr>
+                <td>WriteChar</td>
+                <td>char: str (символ)</td>
+                <td>Записывает символ char</td>
+            </tr>
+            <tr>
+                <td>WriteInt</td>
+                <td><ol><li>num: int (само число)</li><li>count: int (сколько байт занимает)</li></ol></td>
+                <td>Записывает число, используя count байт</td>
+            </tr>
+            <tr>
+                <td>WriteStrLen</td>
+                <td>string: str</td>
+                <td>Записывает строку</td>
+            </tr>
+            <tr>
+                <td>WriteStr</td>
+                <td><ol><li>string: str(Сама строка)</li><li>stop: int = -1 (Номер на что заканчивается)</li></ol></td>
+                <td>Записывает строку и потом символ окончания</td>
+            </tr>
+            <tr>
+                <td>WriteBool</td>
+                <td>bools: list[bool] (Массив bool, длина до 8)</td>
+                <td>Записывает массив bool в 1 байт</td>
+            </tr>
+            <tr>
+                <td>Close</td>
+                <td></td>
+                <td>Закрывает файл</td>
+            </tr>
+        </table>
+    </div><br>
+
+    <div class="bor">
+        <h1>Что должно быть в .html редактора?</h1>
+        <ul>
+            <li>{ % include 'menu_edit.html' %}</li>
+            <li>Форма отправки отредактированного:<ul>
+                <li>Параметры form: id="main_form" method="post"</li>
+                <li>Должен быть < input name="save" hidden></li>
+            </ul></li>
+        </ul>
+    </div><br>
+
+    <div class="bor">
+        <h1>Что происходит с файлом?</h1>
+        <ul>
+            <li>Когда пользователь загружает на сервер:<ol>
+                <li>Выбираем нужный Format (пользователь сам выбирает, или определяется автоматически)</li>
+                <li>С помощью метода FunFrom получаем NameType</li>
+                <li>С помощью NameType.Save сохраняем</li>
+            </ol></li>
+            <li>Когда пользователь пытается начать редактировать (переходит на /edit): <ol>
+                <li>С помощью NameType.Load получаем сам класс</li>
+                <li>С помощью EditViews получаем http ответ</li>
+            </ol></li>
+            <li>Когда пользователь пытается сохранить то, что он редактировал: <ol>
+                <li>Он нажимает на кнопку сохранить, и она отправляет POST-запрос формы</li>
+                <li>Передаём POST-запрос в LoadFunEdit, получаем NameType</li>
+                <li>NameType.Save</li>
+            </ol></li>
+            <li>Когда пользователь пытается скачать файл:<ol>
+                <li>С помощью NameType.Load получаем сам NameType</li>
+                <li>C помощью FunTo преобразует в bytes, так отправляет</li>
+            </ol></li>
+        </ul>
+    </div><br>
+
+    <h3>Если у Вас есть ещё вопросы - пишите, отвечу (может даже сюда внесу ответ)</h3>
+</body>
+</html>
