@@ -6,10 +6,16 @@
 </head>
 <body>
     {% include 'menu_edit.html' %}
+
+    <div contentEditable="true"><p><span style="color: red">qw</span><span>er</span></p></div>
+
     <form id="main_form" method="post">
         {% csrf_token %}
-        <textarea name="text">{{ text }}</textarea>
+        <textarea style="width: 100000px; height: 100000px;" name="text" id="text">{{ text }}</textarea>
         <input name="save" hidden>
     </form>
+
+    {% load static %}
+    <script src="{% static 'js/txt/editTxt.js' %}"></script>
 </body>
 </html>
