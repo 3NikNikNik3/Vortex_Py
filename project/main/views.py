@@ -75,10 +75,11 @@ def Save(req):
         return HttpResponseRedirect('/load')
 
     type, file = LoadFromFile('data/' + str(user.id))
-    if 'type' in req.GET and 'name' in req.GET:
-        res = HttpResponse(Get(req.GET['type']).funTo(file), content_type='text/txt')
-        res['Content-Disposition'] = 'attachment; filename=' + req.GET['name']
-        return res
+    if req.method == 'POST':
+        if 'type' in req.POST and 'name' in req.POST:
+            res = HttpResponse(Get(req.POST['type']).funTo(file), content_type='text/txt')
+            res['Content-Disposition'] = 'attachment; filename=' + req.POST['name']
+            return res
 
     arr = []
     for i in Formats:
