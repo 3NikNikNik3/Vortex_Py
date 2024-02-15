@@ -7,11 +7,12 @@
 <body>
     {% include 'menu_edit.html' %}
 
-    <div contentEditable="true"><p><span style="color: red">qw</span><span>er</span></p></div>
+    <p>Не сбрасывайте всё!</p>
+    <div contentEditable="true" id="edit_text" style="white-space: pre"></div>
 
     <form id="main_form" method="post">
         {% csrf_token %}
-        <textarea style="width: 100000px; height: 100000px;" name="text" id="text">{{ text }}</textarea>
+        <textarea name="text" id="text" hidden>{{ text }}</textarea>
         <input name="save" hidden>
     </form>
 
