@@ -6,12 +6,13 @@ from text import views as Text
 
 
 class Format:
-    def __init__(self, name: str, funTo, funFrom, type: str):
+    def __init__(self, name: str, funTo, funFrom, type: str, ext: str):
         self.name = name
         # функция преобразования datas в класс
         self.funTo = funTo
         self.funFrom = funFrom
         self.type = type
+        self.ext = ext
 
 class Type:
     def __init__(self, funedit, loadfunedit, classedit):
@@ -23,7 +24,7 @@ class Type:
 DEFAULT = 0
 
 Formats = [
-    Format('.txt', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text')
+    Format('.txt', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt')
 ]
 
 Types = {
