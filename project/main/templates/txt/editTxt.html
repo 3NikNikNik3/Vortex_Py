@@ -5,13 +5,14 @@
     <title>Редактор</title>
 </head>
 <body>
+    {% load static %}
     {% include 'menu_edit.html' %}
 
-    <!-- <button id="clear_button">Отчистить</button> -->
-    <br>
-
-    <p>Не сбрасывайте всё!</p>
-    <div contentEditable="true" id="edit_text" style="white-space: pre"></div>
+    <script src="{% static 'js/txt/lib/codemirror.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/txt/lib/codemirror.css' %}">
+    <script src="{% static 'js/txt/mode/python/python.js' %}"></script>
+    <script src="{% static 'js/txt/mode/clike/clike.js' %}"></script>
+    <div id="edit_text"></div>
 
     <form id="main_form" method="post">
         {% csrf_token %}
@@ -19,7 +20,6 @@
         <input name="save" hidden>
     </form>
 
-    {% load static %}
     <script src="{% static 'js/txt/editTxt.js' %}"></script>
 </body>
 </html>
