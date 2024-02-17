@@ -31,6 +31,7 @@ class Istream:
         return ans
 
     def GetStr(self, stop: int) -> str:
+        if self.Eof(): return ''
         ans = ''
         q = self.GetChar()
         while ord(q) != stop and not self.Eof():
