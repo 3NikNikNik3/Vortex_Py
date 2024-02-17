@@ -77,8 +77,10 @@ def Save(req):
     type, file = LoadFromFile('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
-            res = HttpResponse(Get(req.POST['type']).funTo(file), content_type='text/txt')
-            res['Content-Disposition'] = 'attachment; filename=' + req.POST['name']
+            f = Get(req.POST['type'])
+            res = HttpResponse(f.funTo(file), content_type='text/txt')
+            res['Content-Disposition'] = ('attachment; filename=' + req.POST['name'] +
+                                          (f.ext if ('add_ras' in req.POST) else ''))
             return res
 
     arr = []
