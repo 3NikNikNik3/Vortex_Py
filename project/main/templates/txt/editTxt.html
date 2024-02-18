@@ -8,17 +8,72 @@
     {% load static %}
     {% include 'menu_edit.html' %}
 
+    <form id="main_form" method="post">
+        {% csrf_token %}
+
+        <label for="sinte">Синтаксис как у: </label>
+        <select name="sinte" id="sinte">
+            <option value="null" {% if sinte == "null" %} selected {% endif %}>Ни кокой</option>
+            <option value="text/x-csrc" {% if sinte == "text/x-csrc" %} selected {% endif %}>C++/C#/C/Object-C/Java/Scala/Kotlin/Ceylon</option>
+            <option value="python" {% if sinte == "python" %} selected {% endif %}>Python/Cython</option>
+            <option value="brainfuck" {% if sinte == "brainfuck" %} selected {% endif %}>Brainfuck</option>
+            <option value="cobol" {% if sinte == "cobol" %} selected {% endif %}>Cobol</option>
+            <option value="cmake" {% if sinte == "cmake" %} selected {% endif %}>CMake</option>
+            <option value="coffeescript" {% if sinte == "coffeescript" %} selected {% endif %}>CoffeeScript</option>
+            <option value="crystal" {% if sinte == "crystal" %} selected {% endif %}>Crystal</option>
+            <option value="sql" {% if sinte == "sql" %} selected {% endif %}>SQL and SQL like</option>
+            <option value="d" {% if sinte == "d" %} selected {% endif %}>D</option>
+            <option value="diff" {% if sinte == "diff" %} selected {% endif %}>diff</option>
+            <option value="ecl" {% if sinte == "ecl" %} selected {% endif %}>ECL</option>
+            <option value="eiffel" {% if sinte == "eiffel" %} selected {% endif %}>Eiffel</option>
+            <option value="mllike" {% if sinte == "mllike" %} selected {% endif %}>F#/OCaml/SML</option>
+            <option value="go" {% if sinte == "go" %} selected {% endif %}>Go</option>
+            <option value="http" {% if sinte == "http" %} selected {% endif %}>HTTP</option>
+            <option value="javascript" {% if sinte == "javascript" %} selected {% endif %}>JavaScript/TypeScript/JSON/JSON-LD</option>
+            <option value="lua" {% if sinte == "lua" %} selected {% endif %}>Lua</option>
+            <option value="pascal" {% if sinte == "pascal" %} selected {% endif %}>Pascal</option>
+            <option value="perl" {% if sinte == "perl" %} selected {% endif %}>Perl</option>
+            <option value="php" {% if sinte == "php" %} selected {% endif %}>PHP</option>
+            <option value="powershell" {% if sinte == "powershell" %} selected {% endif %}>PowerShell</option>
+            <option value="ruby" {% if sinte == "ruby" %} selected {% endif %}>Ruby</option>
+            <option value="shell" {% if sinte == "shell" %} selected {% endif %}>Shell</option>
+            <option value="xml" {% if sinte == "xml" %} selected {% endif %}>XML</option>
+
+        </select>
+        <br>
+        <br>
+
+        <textarea name="text" id="text" hidden>{{ text }}</textarea>
+        <input name="save" hidden>
+    </form>
+
     <script src="{% static 'js/txt/lib/codemirror.js' %}"></script>
     <link rel="stylesheet" href="{% static 'js/txt/lib/codemirror.css' %}">
     <script src="{% static 'js/txt/mode/python/python.js' %}"></script>
     <script src="{% static 'js/txt/mode/clike/clike.js' %}"></script>
+    <script src="{% static 'js/txt/mode/brainfuck/brainfuck.js' %}"></script>
+    <script src="{% static 'js/txt/mode/cobol/cobol.js' %}"></script>
+    <script src="{% static 'js/txt/mode/cmake/cmake.js' %}"></script>
+    <script src="{% static 'js/txt/mode/coffeescript/coffeescript.js' %}"></script>
+    <script src="{% static 'js/txt/mode/crystal/crystal.js' %}"></script>
+    <script src="{% static 'js/txt/mode/sql/sql.js' %}"></script>
+    <script src="{% static 'js/txt/mode/d/d.js' %}"></script>
+    <script src="{% static 'js/txt/mode/diff/diff.js' %}"></script>
+    <script src="{% static 'js/txt/mode/ecl/ecl.js' %}"></script>
+    <script src="{% static 'js/txt/mode/eiffel/eiffel.js' %}"></script>
+    <script src="{% static 'js/txt/mode/mllike/mllike.js' %}"></script>
+    <script src="{% static 'js/txt/mode/go/go.js' %}"></script>
+    <script src="{% static 'js/txt/mode/http/http.js' %}"></script>
+    <script src="{% static 'js/txt/mode/javascript/javascript.js' %}"></script>
+    <script src="{% static 'js/txt/mode/lua/lua.js' %}"></script>
+    <script src="{% static 'js/txt/mode/pascal/pascal.js' %}"></script>
+    <script src="{% static 'js/txt/mode/perl/perl.js' %}"></script>
+    <script src="{% static 'js/txt/mode/php/php.js' %}"></script>
+    <script src="{% static 'js/txt/mode/powershell/powershell.js' %}"></script>
+    <script src="{% static 'js/txt/mode/ruby/ruby.js' %}"></script>
+    <script src="{% static 'js/txt/mode/shell/shell.js' %}"></script>
+    <script src="{% static 'js/txt/mode/xml/xml.js' %}"></script>
     <div id="edit_text"></div>
-
-    <form id="main_form" method="post">
-        {% csrf_token %}
-        <textarea name="text" id="text" hidden>{{ text }}</textarea>
-        <input name="save" hidden>
-    </form>
 
     <script src="{% static 'js/txt/editTxt.js' %}"></script>
 </body>

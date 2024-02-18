@@ -5,11 +5,14 @@ from FileType import FileType, Istream, Ostream
 class TxtType(FileType):
     def __init__(self):
         self.data = ''
+        self.type = 'null'
 
     def Save_(self, file: Ostream):
+        file.WriteStr(self.type, 0)
         file.WriteStrToEnd(self.data)
 
     def Load(self, file: Istream):
+        self.type = file.GetStr(0)
         self.data = file.GetStrToEnd()
 
 def TxtFunToUtf8(file: TxtType):
@@ -41,8 +44,9 @@ def TxtFunFromASCII(data: bytes):
 def TxtLoadFunEdit(q):
     ans = TxtType()
     ans.data = q['text']
+    ans.type = q['sinte']
     return ans
 
 # Create your views here.
 def EditTxt(req, file):
-    return render(req, 'txt/editTxt.html', {'text': '\n' + file.data})
+    return render(req, 'txt/editTxt.html', {'text': '\n' + file.data, 'sinte': file.type})
