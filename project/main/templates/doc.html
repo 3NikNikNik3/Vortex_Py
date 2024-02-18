@@ -103,6 +103,11 @@
                 <td>count: int = 8 (кол-во bool)</td>
                 <td>Возвращает массив из bool, считанных с 1 байта</td>
             </tr>
+            <tr>
+                <td>GetStrToEnd</td>
+                <td></td>
+                <td>Возвращает строку (до конца файла)</td>
+            </tr>
         </table>
     </div><br>
 
@@ -135,6 +140,11 @@
                 <td>WriteBool</td>
                 <td>bools: list[bool] (Массив bool, длина до 8)</td>
                 <td>Записывает массив bool в 1 байт</td>
+            </tr>
+            <tr>
+                <td>WriteStrToEnd</td>
+                <td>string: str</td>
+                <td>Записывает строку, должен быть последней командой</td>
             </tr>
             <tr>
                 <td>Close</td>
