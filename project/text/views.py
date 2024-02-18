@@ -19,7 +19,10 @@ def TxtFunToASCII(file: TxtType):
     ans = []
     for i in file.data:
         ans.append(ord(i))
-    return bytes(ans)
+    try:
+        return bytes(ans)
+    except ValueError:
+        return bytes([ord(i) for i in 'errorLoad'])
 
 def TxtFunFromUtf8(data: bytes):
     ans = TxtType()
