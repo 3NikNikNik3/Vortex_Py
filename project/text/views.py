@@ -7,10 +7,10 @@ class TxtType(FileType):
         self.data = ''
 
     def Save_(self, file: Ostream):
-        file.WriteStr(self.data)
+        file.WriteStrToEnd(self.data)
 
     def Load(self, file: Istream):
-        self.data = file.GetStr(-1)
+        self.data = file.GetStrToEnd()
 
 def TxtFunToUtf8(file: TxtType):
     return file.data.encode('utf-8')

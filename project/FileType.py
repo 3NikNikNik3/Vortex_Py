@@ -2,7 +2,7 @@ from datetime import datetime
 
 class Istream:
     def __init__(self, path: str):
-        with open(path, 'r') as file:
+        with open(path, 'rb') as file:
             self.data = file.read()
         self.index = 0
 
@@ -12,7 +12,7 @@ class Istream:
     def Next(self, how: int):
         self.index = min(len(self.data), self.index + how)
 
-    def GetChar(self) -> str:
+    def GetChar(self) -> int:
         self.index += 1
         return self.data[self.index - 1]
 
@@ -20,29 +20,31 @@ class Istream:
         return self.index == len(self.data)
 
     def GetInt(self, count: int) -> int:
+        if self.Eof(): return 0
         ans = 0
         for i in range(count):
-            ans = ans + ord(self.GetChar()) * 256 ** i
+            ans = ans + self.GetChar() * 256 ** i
         return ans
 
     def GetStrLen(self, len: int) -> str:
         ans = ''
-        for i in range(len): ans += self.GetChar()
+        for i in range(len): ans += chr(self.GetInt(4))
         return ans
 
     def GetStr(self, stop: int) -> str:
         if self.Eof(): return ''
         ans = ''
-        q = self.GetChar()
-        while ord(q) != stop and not self.Eof():
-            ans += q
-            q = self.GetChar()
-        if ord(q) != stop: ans += q
+        q = self.GetInt(4)
+        while q != stop and not self.Eof():
+            ans += chr(q)
+            q = self.GetInt(4)
+        if q != stop: ans += chr(q)
         return ans
 
     def GetBool(self, count: int = 8) -> list[bool]:
+        if self.Eof(): return [False] * count
         ans = [False] * count
-        q = ord(self.GetChar())
+        q = self.GetChar()
         i = 0
         while q != 0 and count != i:
             ans[count - 1 - i] = bool(q & 1)
@@ -50,28 +52,32 @@ class Istream:
             q >>= 1
         return ans
 
+    def GetStrToEnd(self) -> str:
+        ans = self.data[self.index:].decode('utf-8')
+        self.index = len(self.data)
+        return ans
+
 
 class Ostream:
     def __init__(self, path: str):
-        self.file = open(path, 'w')
+        self.file = open(path, 'wb')
 
-    def WriteChar(self, char: str):
-        self.file.write(char)
+    def WriteChar(self, char: int):
+        self.file.write(bytes([char]))
 
     def WriteInt(self, num: int, count: int):
         for i in range(count):
-            self.file.write(chr(num % 256))
+            self.WriteChar(num % 256)
             num //= 256
 
     def WriteStrLen(self, string: str):
         for i in string:
-            self.WriteChar(i)
+            self.WriteInt(ord(i), 4)
 
-    def WriteStr(self, string: str, stop: int = -1):
-        for i in string:
-            self.WriteChar(i)
-        if stop != -1:
-            self.WriteChar(chr(stop))
+    def WriteStr(self, string: str, stop: int):
+        if not 0 <= stop <= 255: raise ValueError('0-255!')
+        self.WriteStrLen(string)
+        self.WriteInt(stop, 4)
 
     def WriteBool(self, bools: list[bool]):
         if len(bools) > 8: raise ValueError('Слишком много')
@@ -79,7 +85,10 @@ class Ostream:
         for i in bools:
             q <<= 1
             q |= i
-        self.WriteChar(chr(q))
+        self.WriteChar(q)
+
+    def WriteStrToEnd(self, string: str):
+        self.file.write(string.encode('utf-8'))
 
     def Close(self):
         self.file.close()
