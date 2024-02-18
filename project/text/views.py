@@ -15,9 +15,24 @@ class TxtType(FileType):
 def TxtFunToUtf8(file: TxtType):
     return file.data.encode('utf-8')
 
+def TxtFunToASCII(file: TxtType):
+    ans = []
+    for i in file.data:
+        ans.append(ord(i))
+    return bytes(ans)
+
 def TxtFunFromUtf8(data: bytes):
     ans = TxtType()
-    ans.data = data.decode('utf-8')
+    try:
+        ans.data = data.decode('utf-8')
+    except UnicodeDecodeError:
+        ans.data = 'error'
+    return ans
+
+def TxtFunFromASCII(data: bytes):
+    ans = TxtType()
+    for i in data:
+        ans.data += chr(i)
     return ans
 
 def TxtLoadFunEdit(q):

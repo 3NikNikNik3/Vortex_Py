@@ -24,7 +24,8 @@ class Type:
 DEFAULT = 0
 
 Formats = [
-    Format('.txt', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt')
+    Format('.txt (utf-8)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt'),
+    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt')
 ]
 
 Types = {
