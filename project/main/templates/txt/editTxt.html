@@ -17,6 +17,7 @@
             <option value="text/x-csrc" {% if sinte == "text/x-csrc" %} selected {% endif %}>C++/C#/C/Object-C/Java/Scala/Kotlin/Ceylon</option>
             <option value="python" {% if sinte == "python" %} selected {% endif %}>Python/Cython</option>
             <option value="brainfuck" {% if sinte == "brainfuck" %} selected {% endif %}>Brainfuck</option>
+            <option value="css" {% if sinte == "css" %} select {% endif %}>CSS/Closure Stylesheets (GSS)/LESS/SCSS</option>
             <option value="cobol" {% if sinte == "cobol" %} selected {% endif %}>Cobol</option>
             <option value="cmake" {% if sinte == "cmake" %} selected {% endif %}>CMake</option>
             <option value="coffeescript" {% if sinte == "coffeescript" %} selected {% endif %}>CoffeeScript</option>
@@ -73,6 +74,7 @@
     <script src="{% static 'js/txt/mode/ruby/ruby.js' %}"></script>
     <script src="{% static 'js/txt/mode/shell/shell.js' %}"></script>
     <script src="{% static 'js/txt/mode/xml/xml.js' %}"></script>
+    <script src="{% static 'js/txt/mode/css/css.js' %}"></script>
     <div id="edit_text"></div>
 
     <script src="{% static 'js/txt/editTxt.js' %}"></script>
