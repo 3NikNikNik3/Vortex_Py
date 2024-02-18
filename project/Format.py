@@ -52,7 +52,7 @@ Formats = [
 
 Types = {
     'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст',
-                     [Transform('txt/text', lambda x: True, lambda x, y: x, None)])
+                     [])
 }
 
 
