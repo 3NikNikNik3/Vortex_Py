@@ -99,7 +99,7 @@ def EditHtml(req, file: FileHtml):
             with open('project/main/static/js/txt/data/' +
                       str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html',
                       'w') as file_:
-                file_.write(req.POST['text'])
+                file_.write(req.POST['text'].replace('src="../', ''))
             return HttpResponse(status=204)
 
     return render(req, 'txt/editHtml.html', {'text': '\n' + file.data,

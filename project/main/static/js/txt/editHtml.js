@@ -22,7 +22,7 @@ change_button.onclick = function() {
         text_to_load.value = myCodeMirror.getValue()
         form_to_load.submit()
         setTimeout(() => {
-            vis.innerHTML = "<iframe src='static/js/txt/data/" + ID + ".html'>Произошла какая-то ошибка</iframe>"
+            vis.innerHTML = "<iframe height=" + (window.screen.height - vis.getBoundingClientRect().y - 150).toString() + " width= " + (window.screen.width - vis.getBoundingClientRect().x - 100).toString() + " src='static/js/txt/data/" + ID + ".html'>Произошла какая-то ошибка</iframe>"
         }, 100);
     } else {
         editor.hidden = false
