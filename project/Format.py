@@ -25,11 +25,13 @@ DEFAULT = 0
 
 Formats = [
     Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt'),
-    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt')
+    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt'),
+    Format('.html', Text.HtmlFunFromFile, Text.HtmlFunToFile, 'txt/html', '.html')
 ]
 
 Types = {
-    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType)
+    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType),
+    'txt/html': Type(Text.EditHtml, Text.HtmlLoadFunEdit, Text.FileHtml)
 }
 
 
