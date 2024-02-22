@@ -1,3 +1,5 @@
+import os.path
+
 from django.http import HttpResponse
 from django.shortcuts import render
 from FileType import FileType, Istream, Ostream
@@ -95,11 +97,17 @@ def HtmlLoadFunEdit(q):
 
 def EditHtml(req, file: FileHtml):
     if req.method == "POST":
-        if 'load' in req.POST and 'text' in req.POST:
+        if 'delete_load' in req.POST:
+            if os.path.exists('project/main/static/js/txt/data/' +
+                        str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html'):
+                os.remove('project/main/static/js/txt/data/' +
+                          str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html')
+                return HttpResponse(status=204)
+        elif 'load' in req.POST and 'text' in req.POST:
             with open('project/main/static/js/txt/data/' +
                       str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html',
                       'w') as file_:
-                file_.write(req.POST['text'].replace('src="../', ''))
+                file_.write(req.POST['text'])
             return HttpResponse(status=204)
 
     return render(req, 'txt/editHtml.html', {'text': '\n' + file.data,

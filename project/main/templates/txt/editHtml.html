@@ -29,6 +29,7 @@
     <form method="post" id="form_to_load" hidden>
         {% csrf_token %}<textarea name="text" id="text_to_load"></textarea><input name="load">
     </form>
+    <form method="post" id="form_to_delete" hidden>{% csrf_token %}<input name="delete_load"></form>
     
     <script src="{% static 'js/txt/editHtml.js' %}"></script>
 </body>

@@ -28,6 +28,7 @@ change_button.onclick = function() {
         editor.hidden = false
         change_button.textContent = "К виду"
         vis.innerHTML = ""
+        form_to_delete.submit()
     }
     MODE = (MODE + 1) % 2
 }
