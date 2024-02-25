@@ -145,7 +145,7 @@ def Transform(req):
             t = Types[type].GetTrans(req.POST['why'])
             if not t is None:
                 t.funMain(file, req.POST).Save('data/' + str(user.id), req.POST['why'])
-                return HttpResponse(status=204)
+                type, file = LoadFromFile('data/' + str(user.id))
         elif 'save' in req.POST and 'why' in req.POST:
             t = Types[type].GetTrans(req.POST['why'])
             if not t is None:
