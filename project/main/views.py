@@ -71,16 +71,22 @@ def Save(req):
         return HttpResponseRedirect('/load')
     user = user[0]
 
-    if not os.path.exists('data/' + str(user.id)):
-        return HttpResponseRedirect('/load')
+    del_ = False
+    if os.path.exists('data/' + str(user.id) + 'save'):
+        type, file = LoadFromFile('data/' + str(user.id))
+        del_ = True
+    else:
+        if not os.path.exists('data/' + str(user.id)):
+            return HttpResponseRedirect('/load')
 
-    type, file = LoadFromFile('data/' + str(user.id))
+        type, file = LoadFromFile('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
             f = Get(req.POST['type'])
             res = HttpResponse(f.funTo(file), content_type='text/txt')
             res['Content-Disposition'] = ('attachment; filename=' + req.POST['name'] +
                                           (f.ext if ('add_ras' in req.POST) else ''))
+            if del_: os.remove('data/' + str(user.id) + 'save')
             return res
 
     arr = []
@@ -111,7 +117,44 @@ def Edit(req):
             type = file.GetStr(1)
             file = Types[type].LoadFunEdit(req.POST)
             file.Save('data/' + str(user.id), type)
-        else: type, file = LoadFromFile('data/' + str(user.id))
-    else: type, file = LoadFromFile('data/' + str(user.id))
+        else:
+            type, file = LoadFromFile('data/' + str(user.id))
+    else:
+        type, file = LoadFromFile('data/' + str(user.id))
 
     return Types[type].FunEdit(req, file)
+
+
+def Transform(req):
+    key = req.get_signed_cookie('key_user', default='')
+    if key == '':
+        return HttpResponseRedirect('/load')
+
+    user = User.objects.filter(key=key)
+    if len(user) != 1:
+        return HttpResponseRedirect('/load')
+    user = user[0]
+
+    if not os.path.exists('data/' + str(user.id)):
+        return HttpResponseRedirect('/load')
+
+    type, file = LoadFromFile('data/' + str(user.id))
+
+    if req.method == 'POST':
+        if 'go' in req.POST and 'why' in req.POST:
+            t = Types[type].GetTrans(req.POST['why'])
+            if not t is None:
+                t.funMain(file, req.POST).Save('data/' + str(user.id), req.POST['why'])
+                return HttpResponse(status=204)
+        elif 'save' in req.POST and 'why' in req.POST:
+            t = Types[type].GetTrans(req.POST['why'])
+            if not t is None:
+                t.funMain(file, req.POST).Save('data/' + str(user.id) + 'save', req.POST['why'])
+                return HttpResponseRedirect('/save')
+
+    arr = []
+    for i in Types[type].transform:
+        if i.funCan(file):
+            arr.append({'where': i.where, 'html': i.GetHrmlOption(), 'name': Types[i.where].name})
+
+    return render(req, 'transform.html', {'types': arr, 'from': Types[type].name})
