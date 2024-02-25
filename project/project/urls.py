@@ -25,5 +25,6 @@ urlpatterns = [
     path('load', main.Load),
     path('save', main.Save),
     path('edit', main.Edit),
+    path('transform', main.Transform),
     path('doc', lambda x: render(x, 'doc.html'))
 ]

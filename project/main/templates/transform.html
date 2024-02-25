@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Преобразование</title>
+    {% load static %}
+</head>
+<body>
+    <table><tr>
+        <td>Преобразовать файл из {{ from }}</td>
+        <td>В <select id="why">
+            {% for i in types %}
+            <option value="{{ i.where }}">{{ i.name }}</option>
+            {% endfor %}
+        </select></td>
+        <td>
+            <div id="option"></div>
+        </td>
+    </tr></table>
+    <center>
+        <form method="post" id="form1">
+            {% csrf_token %}
+            <input type="submit" value="Преобразовать">
+            <input name="go" hidden>
+            <input type="text" id="output1" name="why" hidden>
+        </form>
+        <form method="post" id="form2">
+            {% csrf_token %}
+            <input type="submit" value="Сохранить">
+            <input name="save" hidden>
+            <input type="text" id="output2" name="why" hidden>
+        </form>
+    </center>
+
+    {% for i in types %}
+    <div id="DIV{{ i.where }}" hidden>{{ i.html }}</div>
+    {% endfor %}
+
+    <script src="{% static 'js/transform.js' %}"></script>
+</body>
+</html>
