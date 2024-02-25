@@ -6,6 +6,7 @@
     {% load static %}
 </head>
 <body>
+    {% if ok %}
     <table><tr>
         <td>Преобразовать файл из {{ from }}</td>
         <td>В <select id="why">
@@ -37,5 +38,10 @@
     {% endfor %}
 
     <script src="{% static 'js/transform.js' %}"></script>
+
+    {% else %}
+    <h1>К сожалению, Вы не можете преобразовать</h1>
+    {% endif %}
+    <button onclick="window.open('/edit', '_self')">Открыть редактор</button>
 </body>
 </html>
