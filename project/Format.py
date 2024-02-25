@@ -14,11 +14,33 @@ class Format:
         self.type = type
         self.ext = ext
 
+
+class Transform:
+    def __init__(self, where: str, funCan, funMain, option: str | None):
+        self.where = where
+        self.funCan = funCan
+        self.funMain = funMain
+        self.option = option
+
+    def GetHrmlOption(self) -> str:
+        if self.option is None:
+            return ''
+        return "{% include '" + self.option + "' %}"
+
+
 class Type:
-    def __init__(self, funedit, loadfunedit, classedit):
+    def __init__(self, funedit, loadfunedit, classedit, name: str, transform: list[Transform]):
         self.FunEdit = funedit
         self.ClassEdit = classedit
         self.LoadFunEdit = loadfunedit
+        self.name = name
+        self.transform = transform
+
+    def GetTrans(self, name: str) -> Transform | None:
+        for i in self.transform:
+            if i.where == name:
+                return i
+        return None
 
 
 DEFAULT = 0

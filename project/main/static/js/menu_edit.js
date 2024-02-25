@@ -17,3 +17,8 @@ function LOAD() {
 download.onclick = DOWNLOAD
 save.onclick = SAVE
 load.onclick = LOAD
+transform.onclick = function() {
+    if (confirm('Все несохранёные изменения будут потеряны!')) {
+        window.open('transform', '_self')
+    }
+}
