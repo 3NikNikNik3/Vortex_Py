@@ -157,4 +157,4 @@ def Transform(req):
         if i.funCan(file):
             arr.append({'where': i.where, 'html': i.GetHrmlOption(), 'name': Types[i.where].name})
 
-    return render(req, 'transform.html', {'types': arr, 'from': Types[type].name})
+    return render(req, 'transform.html', {'types': arr, 'from': Types[type].name, 'ok': len(arr) > 0})
