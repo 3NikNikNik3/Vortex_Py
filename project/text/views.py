@@ -64,6 +64,18 @@ def EditTxt(req, file):
     return render(req, 'txt/editTxt.html', {'text': '\n' + file.data, 'sinte': file.type})
 
 
+def TextToHtml(file, post):
+    ans = FileHtml()
+    ans.data = file.data
+    return ans
+
+
+def HtmlToText(file, post):
+    ans = TxtType()
+    ans.data = file.data
+    return ans
+
+
 # html
 class FileHtml(FileType):
     def __init__(self):
@@ -99,7 +111,8 @@ def EditHtml(req, file: FileHtml):
     if req.method == "POST":
         if 'delete_load' in req.POST:
             if os.path.exists('project/main/static/js/txt/data/' +
-                        str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html'):
+                              str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[
+                                      0].id) + '.html'):
                 os.remove('project/main/static/js/txt/data/' +
                           str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html')
                 return HttpResponse(status=204)
@@ -111,4 +124,6 @@ def EditHtml(req, file: FileHtml):
             return HttpResponse(status=204)
 
     return render(req, 'txt/editHtml.html', {'text': '\n' + file.data,
-                                             'id': User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id})
+                                             'id':
+                                                 User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[
+                                                     0].id})

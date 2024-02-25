@@ -52,8 +52,12 @@ Formats = [
 ]
 
 Types = {
-    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType),
-    'txt/html': Type(Text.EditHtml, Text.HtmlLoadFunEdit, Text.FileHtml)
+    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст', [
+        Transform('txt/html', lambda x: True, Text.TextToHtml, None)
+    ]),
+    'txt/html': Type(Text.EditHtml, Text.HtmlLoadFunEdit, Text.FileHtml, 'HTML файлы', [
+        Transform('txt/text', lambda x: True, Text.HtmlToText, None)
+    ])
 }
 
 
