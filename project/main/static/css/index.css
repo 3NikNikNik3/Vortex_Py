@@ -27,26 +27,11 @@ button:hover {
     transition: 0.5s;
 }
 
-.cen {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%
-}
-
 .copy_text {
-    font-style: italic
+    font-style: italic;
+    color:#FFbb77;
 }
 
-.up {
-    position: fixed;
-    background-color: blue;
-    z-index: 999999999;
-    margin-left: auto;
-    margin-right: auto;
-    width: 6em;
-    text-align: center;
-    right: 45%
-}
 li {
     list-style-type: "• ";
 }
