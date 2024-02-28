@@ -1,31 +1,30 @@
 body {
-    background: linear-gradient(to bottom right, #000000, #aaaaaa)
+    background: linear-gradient(90deg,#0b1428, #0e1525, #0b1428);
+    font-size: 14px;
+    font-family: Verdana;
+    color: #ffffff;
 }
 
-main {
-    text-align: center;
-    color: orange;
-
-}
-
-footer {
-    color: orange;
-    position: relative
-}
-
-table {
-    color: #333333;
-    background-color: orange
+.cent_part {
+    max-width: 750px;
+    margin: 0 auto;
+    background-color: #2b3245;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 button {
     border: none;
-    color: #333333;
-    background-color: orange
+    color: #FFFFFF;
+    background: none;
+    font-size: 17px;
 }
 
-.love {
-    color: red
+button:hover {
+    border: none;
+    color: #FF7200;
+    font-size: 17px;
+    transition: 0.5s;
 }
 
 .cen {
@@ -47,4 +46,15 @@ button {
     width: 6em;
     text-align: center;
     right: 45%
+}
+li {
+    list-style-type: "• ";
+}
+a {
+    outline: none;
+  text-decoration: none;
+  color: #FF7200;
+}
+a:hover {
+  color: #FF8400;
 }
