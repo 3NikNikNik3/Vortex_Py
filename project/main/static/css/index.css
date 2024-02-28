@@ -1,0 +1,50 @@
+body {
+    background: linear-gradient(to bottom right, #000000, #aaaaaa)
+}
+
+main {
+    text-align: center;
+    color: orange;
+
+}
+
+footer {
+    color: orange;
+    position: relative
+}
+
+table {
+    color: #333333;
+    background-color: orange
+}
+
+button {
+    border: none;
+    color: #333333;
+    background-color: orange
+}
+
+.love {
+    color: red
+}
+
+.cen {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%
+}
+
+.copy_text {
+    font-style: italic
+}
+
+.up {
+    position: fixed;
+    background-color: blue;
+    z-index: 999999999;
+    margin-left: auto;
+    margin-right: auto;
+    width: 6em;
+    text-align: center;
+    right: 45%
+}

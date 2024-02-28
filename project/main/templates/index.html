@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+
+<table class="up" id="up_text" hidden>
+    <tr><td>Скопировано</td></tr>
+</table>
+
+<script src="{% static 'js/index.js' %}"></script>
+
+<main>
+    <h1>Vertex</h1>
+    <h2>Для чего нужно наше приложение?</h2>
+    <p>Данное приложение нужно для того, чтобы редактировать и конверсировать файл из одного формата в другой</p>
+    <button onclick="window.open('edit', '_self')">Редактор</button>
+    <button onclick="window.open('load', '_self')">Начать работать (закачка файла)</button>
+    <br>
+    <h2>Также, вы сами можете установить себе это приложение.</h2>
+    <table border="1 px" class="cen"><tr><td>Инструкция:
+        <ol>
+            <li>Скачиваем саму программу (<a href="https://gitlab.informatics.ru/2023-2024/korolev/s101/vortex_py">https://gitlab.informatics.ru/2023-2024/korolev/s101/vortex_py</a>)</li>
+            <li>Устанавливаем python 3.10</li>
+            <li>Устанавливаем все нужные библиотеки: <ul>
+                <li>Django 5.0.2 (<span class="copy_text" onclick="COPY_TEXT('pip3 install django==5.0.2')">pip3 install django==5.0.2</span>)</li>
+            </ul></li>
+            <li>Из папки проекта (vortex_py) запускаем команду <span class="copy_text" onclick="COPY_TEXT('python3 project/manage.py runserver ID:PORT')">python3 project/manage.py runserver ID:PORT</span>. Вместо IP - ip адрес, а вместо PORT - порт, с которых будет запущен сервер.
+            Если Вы хотите просто запустить в локалке, то <span class="copy_text" onclick="COPY_TEXT('python3 project/manage.py runserver')">python3 project/manage.py runserver</span></li>
+            <li>Всё готово, переходите по своему адресу (или <a href="localhost:8000">localhost:8000</a>)</li>
+        </ol>
+    </td></tr></table>
+</main>
+<footer>
+    Создано командой Py++ с любовью <span class="love">♥</span>
+</footer>
+</body>
+</html>
