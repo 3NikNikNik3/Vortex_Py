@@ -8,6 +8,10 @@
 </head>
 <body>
 
+<table class="up" id="up_text" hidden>
+    <tr><td>Скопировано</td></tr>
+</table>
+
 <script src="{% static 'js/index.js' %}"></script>
 <div style="display:inline-block;">
     <img src="/static/icon.png" height="50"
@@ -43,7 +47,7 @@
             </ul></li><br>
             <li>Из папки проекта (vortex_py) запускаем команду <span class="copy_text" onclick="COPY_TEXT('python3 project/manage.py runserver ID:PORT')">python3 project/manage.py runserver ID:PORT</span>. Вместо IP - ip адрес, а вместо PORT - порт, с которых будет запущен сервер.<br>
             Если Вы хотите просто запустить в локальной сети, то <span class="copy_text" onclick="COPY_TEXT('python3 project/manage.py runserver')">python3 project/manage.py runserver</span></li><br>
-            <li>Всё готово, переходите по своему адресу</li>
+            <li>Всё готово, переходите по своему адресу (или <a href="localhost:8000">localhost:8000</a>)</li>
         </ol>
     </td></tr></table></div>
 </body>
