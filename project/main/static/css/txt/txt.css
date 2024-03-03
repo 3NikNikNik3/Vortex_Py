@@ -1,0 +1,10 @@
+body {
+    background-color: #000000;
+    color: #eeeeee;
+}
+
+select {
+    background-color: #333333;
+    color: #eeeeee;
+    border-color: #111111;
+}
