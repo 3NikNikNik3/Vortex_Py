@@ -37,7 +37,7 @@ def Load(req):
         if not form.is_valid():
             user = User.objects.filter(key=key)
             if len(user) != 1:
-                user = User(key=key, data_create=datetime.now())
+                user = User(key=key, date_create=datetime.now())
                 user.save()
             else:
                 user = user[0]
