@@ -158,3 +158,7 @@ def Transform(req):
             arr.append({'where': i.where, 'html': i.GetHrmlOption(), 'name': Types[i.where].name})
 
     return render(req, 'transform.html', {'types': arr, 'from': Types[type].name, 'ok': len(arr) > 0})
+
+
+def Index(req):
+    return render(req, 'index.html')
