@@ -24,8 +24,10 @@ class Transform:
 
     def GetHrmlOption(self) -> str:
         if self.option is None:
-            return ''
-        return "{% include '" + self.option + "' %}"
+            return '<p>Их нет</p>'
+        with open('project/main/templates/' + self.option, 'r') as file:
+            data = file.read()
+        return data
 
 
 class Type:
