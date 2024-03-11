@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/save.css' %}">
 <head>
     <meta charset="UTF-8">
     <title>Save</title>
 </head>
 <body>
-    {% load static %}
-    <h1>Как скачать?</h1>
+<div class="cent_part">
+    <div style="display: inline-block; width: 100%;">
+    <h1>Как скачать?</h1><img src="/static/favicon.ico" height="50"
+    width="50" style="float:right; margin:-9% 2% 0 0">
+    </div>
     <form id="form" method="post">
         {% csrf_token %}
-        <p><input type="text" id="name_" name="name">
-        <label for="name_">Имя файла</label></p>
-
+        <label for="name_">Имя файла:</label>
+        <input type="text" id="name_" name="name">
         <p><select name="type" id="type_">
             {% for i in types %}
                 <option value="{{ i }}">{{ i }}</option>
@@ -19,14 +23,17 @@
         </select>
         <label for="type_">Расширение файла</label></p>
 
-        <p><input type="checkbox" name="add_ras" checked="true  " id="add_ras">
+        <p><input type="checkbox" name="add_ras" checked="true" id="add_ras">
         <label for="add_ras">Добавить к названию файла расширение?</label></p>
 
-        <input type="submit" value="Скачать">
+        <button id="button_">Обратно</button>
+        <input class="i_button" type="submit" value="Скачать">
     </form>
 
-    <button id="button_">Обратно</button>
+
 
     <script src="{% static 'js/save.js' %}"></script>
+    <br>
+</div>
 </body>
 </html>
