@@ -82,8 +82,10 @@ def Save(req):
         type, file = LoadFromFile('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
+            print(req.POST['name'])
             f = Get(req.POST['type'])
-            res = HttpResponse(f.funTo(file), content_type='text/txt')
+            res = HttpResponse(f.funTo(file), content_type='application/octet-stream')
+            res['Content-Type'] = 'charset=utf-16'
             res['Content-Disposition'] = ('attachment; filename=' + req.POST['name'] +
                                           (f.ext if ('add_ras' in req.POST) else ''))
             if del_: os.remove('data/' + str(user.id) + 'save')
