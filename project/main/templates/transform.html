@@ -21,21 +21,16 @@
         {% endfor %}
     </select>
 
-    <div id="option"><p>Опции:</p></div>
-    <div style="display: inline-block">
-    <form style="float: right" method="post" id="form1">
-            {% csrf_token %}
-            <input class="i_button" type="submit" value="Преобразовать">
-            <input name="go" hidden>
-            <input type="text" id="output1" name="why" hidden>
+    <form method="post">
+        {% csrf_token %}
+        <p>Опции:</p><div id="option"></div>
+        <div style="display: inline-block">
+            <div style="float: right"><input class="i_button" type="submit" value="Преобразовать" id="button1"></div>
+            <div style="float: left"><input class="i_button" type="submit" value="Сохранить" id="button2"></div>
+            <input id="type_" hidden>
+            <input type="text" id="output" name="why" hidden>
+        </div>
     </form>
-    <form style="float: left" method="post" id="form2">
-            {% csrf_token %}
-            <input class="i_button" type="submit" value="Сохранить">
-            <input name="save" hidden>
-            <input type="text" id="output2" name="why" hidden>
-    </form>
-</div>
     <br>
     {% for i in types %}
     <div id="DIV{{ i.where }}" hidden>{{ i.html }}</div>

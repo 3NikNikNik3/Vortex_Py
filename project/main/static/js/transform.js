@@ -1,15 +1,15 @@
 why.onchange = function() {
-    option.innerHTML = document.getElementById('DIV' + why.value).innerHTML
+    option.innerHTML = document.getElementById('DIV' + why.value).innerHTML.replaceAll('&lt;', '<').replaceAll('&gt;', '>')
 }
 
-option.innerHTML = document.getElementById('DIV' + why.value).innerHTML
+why.onchange()
 
-form1.onsubmit = function() {
-    output1.value = why.value
-    form1.submit()
+button1.onclick = function() {
+    type_.name = 'go'
+    output.value = why.value
 }
 
-form2.onsubmit = function() {
-    output2.value = why.value
-    form2.submit()
+button2.onclick = function() {
+    type_.name = 'save'
+    output.value = why.value
 }
