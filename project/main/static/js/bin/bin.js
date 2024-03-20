@@ -5,7 +5,7 @@ let change = false
 function Select(id) {
     change = false
     let q = document.getElementById("li_" + now_select.toString())
-    for (let i = 0; i < 2; ++i) {
+    for (let i = 0; i < 2 & q != null; ++i) {
         q.style.backgroundColor = "rgb(50, 50, 50)"
         q.style.color = "rgb(200, 200, 200)"
         if (i == 0) q = document.getElementById("li2_" + now_select.toString())
@@ -145,14 +145,14 @@ function AddByte() {
                 tab2.appendChild(now2)
             }
             let q = document.createElement('td')
-            q.id = "li_" + i.toString()
+            q.id = "li_" + max_.toString()
             q.innerText = '00'
             q.onclick = f
             q.style.backgroundColor = "rgb(50, 50, 50)"
             q.style.color = "rgb(200, 200, 200)"
             now.appendChild(q)
             let w = document.createElement('td')
-            w.id = "li2_" + i.toString()
+            w.id = "li2_" + max_.toString()
             w.innerText = GetChar('00')
             w.onclick = f_
             w.style.backgroundColor = "rgb(50, 50, 50)"
@@ -166,9 +166,44 @@ function AddByte() {
 function DelByte() {
     let q = Number(prompt('Сколько?'))
     if (q.toString != "NaN") {
-        for (let i = 0; i < q & tab.childNodes.length != 0; ++i) {
-            
+        while (tab.lastChild.childElementCount <= q) {
+            q -= tab.lastChild.childElementCount
+            max_ -= tab.lastChild.childElementCount
+            tab.lastChild.remove()
+            tab2.lastChild.remove()
+
+            if (tab.childElementCount == 0) {
+                let now = document.createElement('tr')
+                let now2 = document.createElement('tr')
+                tab.appendChild(now)
+                tab2.appendChild(now2)
+                let q = document.createElement('td')
+                q.id = "li_0"
+                q.innerText = '00'
+                q.onclick = f
+                q.style.backgroundColor = "rgb(50, 50, 50)"
+                q.style.color = "rgb(200, 200, 200)"
+                now.appendChild(q)
+                let w = document.createElement('td')
+                w.id = "li2_0"
+                w.innerText = GetChar('00')
+                w.onclick = f_
+                w.style.backgroundColor = "rgb(50, 50, 50)"
+                w.style.color = "rgb(200, 200, 200)"
+                now2.appendChild(w)
+                max_ = 1
+            }
         }
+
+        if (q != 0)
+            for (; q != 0; --q) {
+                max_ -= 1
+                tab.lastChild.lastChild.remove()
+                tab2.lastChild.lastChild.remove()
+            }
+
+        if (now_select >= max_)
+            Select(max_ - 1)
     }
 }
 
