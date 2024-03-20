@@ -17,14 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.shortcuts import render
 from django.urls import path
+from django.views.generic.base import RedirectView
 
 from main import views as main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', main.Index),
     path('load', main.Load),
     path('save', main.Save),
     path('edit', main.Edit),
     path('transform', main.Transform),
-    path('doc', lambda x: render(x, 'doc.html'))
+    path('doc', lambda x: render(x, 'doc.html')),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True))
 ]

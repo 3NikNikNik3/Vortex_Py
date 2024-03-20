@@ -4,7 +4,7 @@
   /* Set height, width, borders, and global font properties here */
   font-family: monospace;
   height: 300px;
-  color: black;
+  color: #eeeeee;
   direction: ltr;
 }
 
@@ -26,7 +26,7 @@
 
 .CodeMirror-gutters {
   border-right: 1px solid #ddd;
-  background-color: #f7f7f7;
+  background-color: #111111;
   white-space: nowrap;
 }
 .CodeMirror-linenumbers {}
@@ -44,7 +44,7 @@
 /* CURSOR */
 
 .CodeMirror-cursor {
-  border-left: 1px solid black;
+  border-left: 1px solid white;
   border-right: none;
   width: 0;
 }
@@ -55,10 +55,11 @@
 .cm-fat-cursor .CodeMirror-cursor {
   width: auto;
   border: 0 !important;
-  background: #7e7;
+  background: #323;
 }
 .cm-fat-cursor div.CodeMirror-cursors {
   z-index: 1;
+  background-color: #ffffff !important;
 }
 .cm-fat-cursor .CodeMirror-line::selection,
 .cm-fat-cursor .CodeMirror-line > span::selection, 
@@ -152,7 +153,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
 .CodeMirror {
   position: relative;
   overflow: hidden;
-  background: white;
+  background: #111111;
 }
 
 .CodeMirror-scroll {
@@ -317,7 +318,7 @@ div.CodeMirror-dragcursors {
 }
 
 .CodeMirror-selected { background: #d9d9d9; }
-.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }
+.CodeMirror-focused .CodeMirror-selected { background: #555555; }
 .CodeMirror-crosshair { cursor: crosshair; }
 .CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; }
 .CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; }

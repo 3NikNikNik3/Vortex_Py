@@ -1,0 +1,51 @@
+body {
+    background: linear-gradient(90deg,#0b1428, #0e1525, #0b1428);
+    font-size: 14px;
+    font-family: Verdana;
+    color: #ffffff;
+}
+
+.cent_part {
+    max-width: 750px;
+    margin: 0 auto;
+    background-color: #2b3245;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.up {
+    position: fixed;
+    z-index: 999;
+
+}
+
+button {
+    border: none;
+    color: #FFFFFF;
+    background: none;
+    font-size: 17px;
+}
+
+button:hover {
+    border: none;
+    color: #FF7200;
+    font-size: 17px;
+    transition: 0.5s;
+}
+
+.copy_text {
+    font-style: italic;
+    color:#FFbb77;
+}
+
+li {
+    list-style-type: "• ";
+}
+a {
+    outline: none;
+  text-decoration: none;
+  color: #FF7200;
+}
+a:hover {
+  color: #FF8400;
+}

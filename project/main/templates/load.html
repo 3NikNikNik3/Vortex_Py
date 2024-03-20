@@ -1,17 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/load_front.css' %}">
 <head>
     <meta charset="UTF-8">
     <title>Load</title>
 </head>
-<body>
+<body> <div class="cent_part">
+    <div style="display: inline-block; width: 100%;">
+    <h1 >Загрузка файлов</h1><img src="/static/favicon.ico" height="50"
+    width="50" style="float:right; margin:-9% 2% 0 0">
+    </div>
     <form method="post" enctype="multipart/form-data" class="post-form">
         {% csrf_token %}
-        {{ form.File.label }}: {{ form.File }} <br>
-        {{ form.Type.label }}: {{ form.Type }} <br>
-        <input type="submit" value="Отправить">
+        <div class="cont_box">{{ form.File.label }}: {{ form.File }}</div>
+        <div class="cont_box">{{ form.Type.label }}: {{ form.Type }}</div>
+        <input class="button" type="submit" value="Редактировать">
     </form>
 
-    <p>Внимание! Файл на сервере удаляется через 1 день после последнего изменения! Не забывайте скачивать файл после работы над ним!</p>
+    <p style="font-size: 10px">Внимание! Файл на сервере удаляется через 1 день после последнего изменения! Не забывайте скачивать файл после работы над ним!</p>
+</div>
 </body>
 </html>

@@ -6,5 +6,5 @@ for i in Formats:
     TYPES.update({i.name: i.name})
 
 class LoadFile(forms.Form):
-    File = forms.FileField(label='Файл')
-    Type = forms.MultipleChoiceField(label='Как открывать', widget=forms.RadioSelect, choices=TYPES)
+    File = forms.FileField(label='1. Загрузите файл, который хотите редактировать')
+    Type = forms.MultipleChoiceField(label='2. Выберите подходящий тип данных', widget=forms.RadioSelect, choices=TYPES)

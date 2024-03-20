@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Редактор</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/txt/txt.css' %}">
 </head>
 <body>
     {% load static %}
@@ -13,7 +15,7 @@
 
         <label for="sinte">Синтаксис как у: </label>
         <select name="sinte" id="sinte">
-            <option value="null" {% if sinte == "null" %} selected {% endif %}>Ни кокой</option>
+            <option value="null" {% if sinte == "null" %} selected {% endif %}>Ни какой</option>
             <option value="text/x-csrc" {% if sinte == "text/x-csrc" %} selected {% endif %}>C++/C#/C/Object-C/Java/Scala/Kotlin/Ceylon</option>
             <option value="python" {% if sinte == "python" %} selected {% endif %}>Python/Cython</option>
             <option value="brainfuck" {% if sinte == "brainfuck" %} selected {% endif %}>Brainfuck</option>

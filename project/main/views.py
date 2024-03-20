@@ -37,7 +37,7 @@ def Load(req):
         if not form.is_valid():
             user = User.objects.filter(key=key)
             if len(user) != 1:
-                user = User(key=key, data_create=datetime.now())
+                user = User(key=key, date_create=datetime.now())
                 user.save()
             else:
                 user = user[0]
@@ -82,8 +82,10 @@ def Save(req):
         type, file = LoadFromFile('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
+            print(req.POST['name'])
             f = Get(req.POST['type'])
-            res = HttpResponse(f.funTo(file), content_type='text/txt')
+            res = HttpResponse(f.funTo(file), content_type='application/octet-stream')
+            res['Content-Type'] = 'charset=utf-16'
             res['Content-Disposition'] = ('attachment; filename=' + req.POST['name'] +
                                           (f.ext if ('add_ras' in req.POST) else ''))
             if del_: os.remove('data/' + str(user.id) + 'save')
@@ -145,7 +147,7 @@ def Transform(req):
             t = Types[type].GetTrans(req.POST['why'])
             if not t is None:
                 t.funMain(file, req.POST).Save('data/' + str(user.id), req.POST['why'])
-                return HttpResponse(status=204)
+                type, file = LoadFromFile('data/' + str(user.id))
         elif 'save' in req.POST and 'why' in req.POST:
             t = Types[type].GetTrans(req.POST['why'])
             if not t is None:
@@ -158,3 +160,7 @@ def Transform(req):
             arr.append({'where': i.where, 'html': i.GetHrmlOption(), 'name': Types[i.where].name})
 
     return render(req, 'transform.html', {'types': arr, 'from': Types[type].name, 'ok': len(arr) > 0})
+
+
+def Index(req):
+    return render(req, 'index.html')
