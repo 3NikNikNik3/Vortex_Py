@@ -1,0 +1,19 @@
+body{
+	background-color: rgb(0, 0, 0);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.scrol {
+	display: flex;
+}
+
+.tab2 {
+	width: 40%;
+}
+
+.tab {
+	flex-grow: 1;
+}

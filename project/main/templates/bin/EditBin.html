@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор</title>
+    {% load static %}
+	<link rel="stylesheet" href="{% static 'css/bin/edit.css' %}">
+</head>
+<body>
+	{% include 'menu_edit.html' %}
+
+	<table><tr>
+		<td><button onclick="UpdatePage()">Обновить размеры</button></td>
+		<td><button onclick="AddByte()">Добавить байт</button></td>
+		<td><button onclick="DelByte()">Уменьшить количество байт</button></td>
+		<td><button onclick="Go()">Сделать циклический сдвиг</button></td>
+	</tr></table>
+
+	<form method="post" id="main_form">
+		{% csrf_token %}
+		<input type="text" hidden value="{{ data }}" name="bin" id="ioput">
+		<input name="save" hidden>
+	</form>
+
+	<div class="scrol">
+		<div id="tab2" tabIndex="0" class="tab2"></div>
+		<div id="tab" tabIndex="0" class="tab"></div>
+	</div>
+	<script src="{% static 'js/bin/bin.js' %}"></script>
+</body>
+</html>
+

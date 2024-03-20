@@ -3,6 +3,7 @@ from django.shortcuts import render
 from FileType import FileType, Istream
 
 from text import views as Text
+from binary import views as Bin
 
 
 class Format:
@@ -49,12 +50,14 @@ DEFAULT = 0
 
 Formats = [
     Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt'),
-    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt')
+    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt'),
+    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '')
 ]
 
 Types = {
     'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст',
-                     [])
+                     []),
+    'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник', [])
 }
 
 
