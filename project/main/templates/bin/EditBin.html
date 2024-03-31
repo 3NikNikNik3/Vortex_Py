@@ -9,13 +9,14 @@
 <body>
 	{% include 'menu_edit.html' %}
 
-	<table><tr>
-		<td><button onclick="UpdatePage()">Обновить размеры</button></td>
-		<td><button onclick="AddByte()">Добавить байт</button></td>
-		<td><button onclick="DelByte()">Уменьшить количество байт</button></td>
-		<td><button onclick="Go()">Сделать циклический сдвиг</button></td>
+	<table style="position: fixed; margin-top:-5px;"><tr>
+		<td><button class="button_bin" onclick="UpdatePage()">Обновить размеры</button></td>
+		<td><button class="button_bin" onclick="AddByte()">Добавить байт</button></td>
+		<td><button class="button_bin" onclick="DelByte()">Уменьшить количество байт</button></td>
+		<td><button class="button_bin" onclick="Go()">Сделать циклический сдвиг</button></td>
 	</tr></table>
 
+	<div style="margin-top: 35px">
 	<form method="post" id="main_form">
 		{% csrf_token %}
 		<input type="text" hidden value="{{ data }}" name="bin" id="ioput">
@@ -27,6 +28,7 @@
 		<div id="tab" tabIndex="0" class="tab"></div>
 	</div>
 	<script src="{% static 'js/bin/bin.js' %}"></script>
+	</div>
 </body>
 </html>
 

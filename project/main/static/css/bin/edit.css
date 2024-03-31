@@ -6,6 +6,22 @@ body{
 	user-select: none;
 }
 
+.button_bin {
+    background-color: #FF7200;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.button_bin:hover {
+      background-color: #ff6000;
+}
+
 .scrol {
 	display: flex;
 }
