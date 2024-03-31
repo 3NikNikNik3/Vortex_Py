@@ -207,11 +207,17 @@ function DelByte() {
     }
 }
 
+function mod(num, mod_num) {
+    num = num % mod_num
+    if (num < 0) num += mod_num
+    return num
+}
+
 function Go() {
     let add_count = Number(prompt('На сколько? (можно отрицательный)'))
     if (add_count.toString() != 'Nan') {
         for (let i = 0; i < max_; ++i) {
-            let q = (parseInt(document.getElementById('li_' + i.toString()).innerText, 16) + add_count) % 256
+            let q = mod(parseInt(document.getElementById('li_' + i.toString()).innerText, 16) + add_count, 256)
             document.getElementById("li_" + i.toString()).innerText = q.toString(16)
             document.getElementById("li2_" + i.toString()).innerText = GetChar(q.toString(16))
         }
