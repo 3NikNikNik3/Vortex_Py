@@ -135,7 +135,7 @@ function UpdatePage() {
 
 function AddByte() {
     let q = Number(prompt('Сколько?'))
-    if (q.toString != "NaN") {
+    if (q.toString != "NaN" && q >= 0) {
         let now = tab.lastChild, now2 = tab2.lastChild
         for (let i = 0; i < q; ++i) {
             if (max_ % sizeX == 0) {
@@ -165,7 +165,7 @@ function AddByte() {
 
 function DelByte() {
     let q = Number(prompt('Сколько?'))
-    if (q.toString != "NaN") {
+    if (q.toString != "NaN" && q >= 0) {
         while (tab.lastChild.childElementCount <= q) {
             q -= tab.lastChild.childElementCount
             max_ -= tab.lastChild.childElementCount
