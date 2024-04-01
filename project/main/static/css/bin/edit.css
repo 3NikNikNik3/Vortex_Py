@@ -23,6 +23,9 @@ body{
 }
 
 .scrol {
+    overflow: auto;
+    /*height: 90%;*/
+    scrollbar-width: thin;
 	display: flex;
 }
 

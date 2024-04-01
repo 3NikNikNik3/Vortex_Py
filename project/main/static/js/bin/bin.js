@@ -36,6 +36,7 @@ function GetChar(id) {
 function load(e) {
     if (e == '') e = "00"
     sizeX = Math.floor(window.innerWidth / 2 / 23)
+    scrol.style.height = (window.innerHeight - scrol.getBoundingClientRect().y - 10).toString() + 'px'
     //tab.style.width = (sizeX * 23 + 20).toString() + "px"
     let now, now2
     let count = sizeX
