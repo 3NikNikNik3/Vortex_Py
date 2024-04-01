@@ -47,6 +47,9 @@ def Load(req):
             else:
                 f = Get('.' + str(req.FILES['File']).split('.')[-1])
 
+            if req.FILES['File'].size > f.max_size and f.max_size != -1:
+                return render(req, 'load.html', {'form': LoadFile(), 'error': True}, status=413)
+
             data = bytes()
             for i in req.FILES['File'].chunks():
                 data += i
@@ -57,6 +60,7 @@ def Load(req):
         con['form'] = form
     else:
         con['form'] = LoadFile()
+        con['error'] = False
 
     return render(req, 'load.html', con)
 

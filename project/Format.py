@@ -7,13 +7,14 @@ from binary import views as Bin
 
 
 class Format:
-    def __init__(self, name: str, funTo, funFrom, type: str, ext: str):
+    def __init__(self, name: str, funTo, funFrom, type: str, ext: str, max_size: int):
         self.name = name
         # функция преобразования datas в класс
         self.funTo = funTo
         self.funFrom = funFrom
         self.type = type
         self.ext = ext
+        self.max_size = max_size
 
 
 class Transform:
@@ -49,9 +50,9 @@ class Type:
 DEFAULT = 0
 
 Formats = [
-    Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt'),
-    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt'),
-    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '')
+    Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt', 10),
+    Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt', 102400),
+    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '', 102400)
 ]
 
 Types = {
