@@ -57,3 +57,6 @@ def BinToTxt(file: BinType, req):
         for i in file.data:
             ans.data += chr(i)
     return ans
+
+def NewFile(req):
+    return BinFrom(bytes([0]))

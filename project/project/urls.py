@@ -29,5 +29,6 @@ urlpatterns = [
     path('edit', main.Edit),
     path('transform', main.Transform),
     path('doc', lambda x: render(x, 'doc.html')),
+    path('new', main.New),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True))
 ]

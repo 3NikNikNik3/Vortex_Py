@@ -17,6 +17,12 @@ class Format:
         self.max_size = max_size
 
 
+def GetTextFromFile(path: str) -> str:
+    with open(f'project/main/templates/{path}', 'r') as file:
+        data = file.read()
+    return data
+
+
 class Transform:
     def __init__(self, where: str, funCan, funMain, option: str | None):
         self.where = where
@@ -24,20 +30,30 @@ class Transform:
         self.funMain = funMain
         self.option = option
 
-    def GetHrmlOption(self) -> str:
+    def GetHtmlOption(self) -> str:
         if self.option is None:
             return '<p>Их нет</p>'
-        with open('project/main/templates/' + self.option, 'r') as file:
-            data = file.read()
-        return data
+        return GetTextFromFile(self.option)
+
+
+class NewFile:
+    def __init__(self, option: str | None, fun):
+        self.option = option
+        self.fun = fun
+
+    def GetHtmlOption(self) -> str:
+        if self.option is None:
+            return ''
+        return GetTextFromFile(self.option)
 
 
 class Type:
-    def __init__(self, funedit, loadfunedit, classedit, name: str, transform: list[Transform]):
+    def __init__(self, funedit, loadfunedit, classedit, name: str, new_file: NewFile, transform: list[Transform]):
         self.FunEdit = funedit
         self.ClassEdit = classedit
         self.LoadFunEdit = loadfunedit
         self.name = name
+        self.new_file = new_file
         self.transform = transform
 
     def GetTrans(self, name: str) -> Transform | None:
@@ -56,9 +72,9 @@ Formats = [
 ]
 
 Types = {
-    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст',
+    'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст', NewFile(None, Text.NewFile),
                      [Transform('bin/bin', lambda x: True, Bin.TxtToBin, None)]),
-    'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник',
+    'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник', NewFile(None, Bin.NewFile),
                     [Transform('txt/text', lambda x: True, Bin.BinToTxt, 'bin/toTxt.html')])
 }
 
