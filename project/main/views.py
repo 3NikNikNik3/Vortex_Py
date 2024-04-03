@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from random import randint as rand
 from main.models import User
-from datetime import datetime
 from main.forms import LoadFile
 from Format import Get, LoadFromFile, Formats, Types
 from FileType import Istream
@@ -27,7 +26,7 @@ def Load(req):
         while len(User.objects.filter(key=key)) != 0:
             key = random_key()
         ans.set_signed_cookie('key_user', key)
-        user = User(key=key, date_create=datetime.now())
+        user = User(key=key)
         user.save()
         return ans
 
@@ -37,7 +36,7 @@ def Load(req):
         if not form.is_valid():
             user = User.objects.filter(key=key)
             if len(user) != 1:
-                user = User(key=key, date_create=datetime.now())
+                user = User(key=key)
                 user.save()
             else:
                 user = user[0]
