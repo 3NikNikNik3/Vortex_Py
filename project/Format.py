@@ -50,15 +50,16 @@ class Type:
 DEFAULT = 0
 
 Formats = [
-    Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt', 10),
+    Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt', 102400),
     Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt', 102400),
-    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '', 102400)
+    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '', 10240)
 ]
 
 Types = {
     'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст',
-                     []),
-    'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник', [])
+                     [Transform('bin/bin', lambda x: True, Bin.TxtToBin, None)]),
+    'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник',
+                    [Transform('txt/text', lambda x: True, Bin.BinToTxt, 'bin/toTxt.html')])
 }
 
 
