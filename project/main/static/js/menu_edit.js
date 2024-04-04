@@ -22,3 +22,9 @@ transform.onclick = function() {
         window.open('transform', '_self')
     }
 }
+
+new_file.onclick = function() {
+    if (confirm('Нынешний файл будет удалён!')) {
+        window.open('new', '_self')
+    }
+}
