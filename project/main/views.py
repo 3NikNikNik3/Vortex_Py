@@ -27,17 +27,17 @@ def Load(req):
         while len(User.objects.filter(key=key)) != 0:
             key = random_key()
         ans.set_signed_cookie('key_user', key)
-        user = User(key=key, date_create=datetime.now())
+        user = User(key=key)
         user.save()
         return ans
 
     con = {}
     if req.method == 'POST':
         form = LoadFile(req.POST, req.FILES)
-        if not form.is_valid():
+        if not form.is_valid() and 'Type' in form.data and 'File' in req.FILES:
             user = User.objects.filter(key=key)
             if len(user) != 1:
-                user = User(key=key, date_create=datetime.now())
+                user = User(key=key)
                 user.save()
             else:
                 user = user[0]
@@ -82,7 +82,7 @@ def Save(req):
         type, file = LoadFromFile('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
-            print(req.POST['name'])
+            #print(req.POST['name'])
             f = Get(req.POST['type'])
             res = HttpResponse(f.funTo(file), content_type='application/octet-stream')
             res['Content-Type'] = 'charset=utf-16'

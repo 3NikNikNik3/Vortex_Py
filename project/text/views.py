@@ -43,8 +43,9 @@ def TxtFunFromASCII(data: bytes):
 
 def TxtLoadFunEdit(q):
     ans = TxtType()
-    ans.data = q['text']
-    ans.type = q['sinte']
+    if 'text' in q and 'sinte' in q:
+        ans.data = q['text']
+        ans.type = q['sinte']
     return ans
 
 # Create your views here.
