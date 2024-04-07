@@ -4,7 +4,7 @@ function COPY_TEXT(text) {
     setTimeout(function() {up_text.hidden = true}, 1000)
 }
 
-canvas.height = 2000
+/*canvas.height = 2000
 canvas.width = 2000
 let arr = [], draw = canvas.getContext('2d')
 function Add() {
@@ -24,4 +24,4 @@ function Go() {
     }
 }
 
-setInterval(Go, 10)
+setInterval(Go, 10)*/
