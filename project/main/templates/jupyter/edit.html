@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Jupyter Notebook</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/jupyter/edit.css' %}">
+</head>
+<body>
+    {% include "menu_edit.html" %}
+    <table id="table_main"></table>
+    <button onclick="add('')" class="but">+</button>
+
+    <form id="main_form" method="post" hidden>
+        {% csrf_token %}
+        <input name="save">
+    </form>
+
+    <div hidden>
+        <span id="input_count">{{ count }}</span>
+        {% for i in blocks %}
+            <span id="input_{{ i.id }}">{{ i.value }}</span>
+        {% endfor %}
+    </div>
+
+    <script src="{% static 'js/txt/lib/codemirror.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/txt/lib/codemirror.css' %}">
+    <script src="{% static 'js/jupyter/edit.js' %}"></script>
+</body>
+</html>

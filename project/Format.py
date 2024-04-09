@@ -4,6 +4,7 @@ from FileType import FileType, Istream
 
 from text import views as Text
 from binary import views as Bin
+from jupyter import views as Jup
 
 
 class Format:
@@ -68,14 +69,17 @@ DEFAULT = 0
 Formats = [
     Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt', 102400),
     Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt', 102400),
-    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '', 10240)
+    Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '', 10240),
+    Format('.ipynb', Jup.JupTo, Jup.JupFrom, 'jup/jup', '.ipynb', 102400)
 ]
 
 Types = {
     'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст', NewFile(None, Text.NewFile),
                      [Transform('bin/bin', lambda x: True, Bin.TxtToBin, None)]),
     'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник', NewFile(None, Bin.NewFile),
-                    [Transform('txt/text', lambda x: True, Bin.BinToTxt, 'bin/toTxt.html')])
+                    [Transform('txt/text', lambda x: True, Bin.BinToTxt, 'bin/toTxt.html')]),
+    'jup/jup': Type(Jup.Edit, Jup.EditToFile, Jup.FileJup, 'Юпитер-ноутбук', NewFile(None, Jup.NewFile),
+                    [])
 }
 
 

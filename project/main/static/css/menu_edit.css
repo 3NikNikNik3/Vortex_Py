@@ -1,4 +1,4 @@
-button {
+.but_menu {
     margin-bottom: 5px;
     border: none;
     color: #FFFFFF;
@@ -6,7 +6,7 @@ button {
     font-size: 17px;
 }
 
-button:hover {
+.but_menu:hover {
     border: none;
     color: #FF7200;
     font-size: 17px;
