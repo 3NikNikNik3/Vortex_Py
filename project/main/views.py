@@ -61,7 +61,7 @@ def Load(req):
 
             file = f.funFrom(data)
             file.Save('data/' + str(user.id), f.type)
-            return HttpResponseRedirect('/edit.js')
+            return HttpResponseRedirect('/edit')
         con['form'] = form
     else:
         con['form'] = LoadFile()
@@ -94,7 +94,7 @@ def New(req):
             if req.POST['type'] in Types:
                 file = Types[req.POST['type']].new_file.fun(req.POST)
                 file.Save(f'data/{User.objects.filter(key=key)[0].id}', req.POST['type'])
-                return HttpResponseRedirect('/edit.js')
+                return HttpResponseRedirect('/edit')
 
     return render(req, 'new_file.html', con)
 

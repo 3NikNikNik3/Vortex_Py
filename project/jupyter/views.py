@@ -77,6 +77,7 @@ def JupFrom(data: bytes):
         ans.data = CodeBlocks.json_code_to_block(json.loads(data.decode()))
     except json.decoder.JSONDecodeError:
         ans.data = CodeBlocks()
+        ans.data.blocks.append(CodeBlock('error load'))
     return ans
 
 
@@ -104,7 +105,9 @@ def Edit(req, file: FileJup):
 
 
 def NewFile(req):
-    return FileJup()
+    ans = FileJup()
+    ans.data.blocks.append(CodeBlock())
+    return ans
 
 
 '''with open('test.json', 'r') as file: # читаем предложенный файл 'test.json'
