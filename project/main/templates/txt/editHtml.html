@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактор html</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/txt/html.css' %}">
+</head>
+<body>
+    {% include 'menu_edit.html' %}
+
+    <form id="main_form" method="post">
+        {% csrf_token %}
+        <textarea name="text" id="text" hidden>{{ text }}</textarea>
+        <input name="save" hidden>
+    </form>
+
+    <center><button id="change_button">К виду</button><br><br></center>
+
+    <div id="editor"></div>
+    <script src="{% static 'js/txt/lib/codemirror.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/txt/lib/codemirror.css' %}">
+    <script src="{% static 'js/txt/mode/xml/xml.js' %}"></script>
+    <script src="{% static 'js/txt/mode/javascript/javascript.js' %}"></script>
+    <script src="{% static 'js/txt/mode/css/css.js' %}"></script>
+
+    <div id="id_user" hidden>{{ id }}</div>
+    <!-- Здесь отображения вида -->
+    <div id="vis"></div>
+    <form method="post" id="form_to_load" hidden>
+        {% csrf_token %}<textarea name="text" id="text_to_load"></textarea><input name="load">
+    </form>
+    <form method="post" id="form_to_delete" hidden>{% csrf_token %}<input name="delete_load"></form>
+    
+    <script src="{% static 'js/txt/editHtml.js' %}"></script>
+</body>
+</html>

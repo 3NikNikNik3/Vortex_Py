@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from FileType import FileType, Istream, Ostream
+from text import views as Text
+
 
 class BinType(FileType):
     def __init__(self):
@@ -11,13 +13,16 @@ class BinType(FileType):
     def Load(self, file: Istream):
         self.data = file.data[file.index:]
 
+
 def BinFrom(data: bytes):
     q = BinType()
     q.data = data
     return q
 
+
 def BinTo(file: BinType):
     return file.data
+
 
 def EditToFile(req):
     print(req)
@@ -28,6 +33,7 @@ def EditToFile(req):
     ans.data = bytes(q)
     return ans
 
+
 # Create your views here.
 def Edit(req, file: BinType):
     q = ''
@@ -36,3 +42,21 @@ def Edit(req, file: BinType):
             q += '0'
         q += hex(i)[2:].upper()
     return render(req, 'bin/EditBin.html', {'data': q})
+
+
+def TxtToBin(file: Text.TxtType, req):
+    ans = BinType()
+    ans.data = file.data.encode()
+    return ans
+
+def BinToTxt(file: BinType, req):
+    ans = Text.TxtType()
+    if 'ut' in req:
+        ans.data = file.data.decode()
+    else:
+        for i in file.data:
+            ans.data += chr(i)
+    return ans
+
+def NewFile(req):
+    return BinFrom(bytes([0]))

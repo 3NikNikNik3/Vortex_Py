@@ -23,14 +23,14 @@ body{
 }
 
 .scrol {
-    overflow: auto;
+    overflow-y: auto;
     /*height: 90%;*/
     scrollbar-width: thin;
 	display: flex;
 }
 
 .tab2 {
-	width: 40%;
+	width: 41%;
 }
 
 .tab {

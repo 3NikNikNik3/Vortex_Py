@@ -68,6 +68,11 @@ function load(e) {
     }
 }
 
+function stop_arrow(e) {
+    if (e.code == "ArrowLeft" & e.code == "ArrowRight" & e.code == "ArrowUp" & e.code == "ArrowDown")
+        e.preventDefault()
+}
+
 function KeyOn(e) {
     if (e.code == "ArrowLeft" & document.getElementById("li_" + (now_select - 1).toString()) != null) {
         Select(now_select - 1)
@@ -95,6 +100,7 @@ function KeyOn(e) {
         }
         document.getElementById("li2_" + now_select.toString()).innerText = GetChar(document.getElementById("li_" + now_select.toString()).innerText)
     }
+    stop_arrow(e)
 }
 
 // yes, I know...
@@ -118,6 +124,7 @@ function KeyOn2(e) {
         document.getElementById("li2_" + now_select.toString()).innerText = e.key
         document.getElementById("li_" + now_select.toString()).innerText = e.key.charCodeAt().toString(16)
     }
+    stop_arrow(e)
 }
 
 function UpdatePage() {
