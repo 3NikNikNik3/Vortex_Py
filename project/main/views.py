@@ -17,6 +17,7 @@ def random_key() -> str:
         ans += arr[rand(0, len(arr) - 1)]
     return ans
 
+
 def get_random_key() -> str:
     key = random_key()
     while len(User.objects.filter(key=key)) != 0:
@@ -52,7 +53,7 @@ def Load(req):
             else:
                 f = Get('.' + str(req.FILES['File']).split('.')[-1])
 
-            if req.FILES['File'].size > f.max_size and f.max_size != -1:
+            if req.FILES['File'].size > f.max_size != -1:
                 return render(req, 'load.html', {'form': LoadFile(), 'error': True}, status=413)
 
             data = bytes()
@@ -111,13 +112,13 @@ def Save(req):
 
     del_ = False
     if os.path.exists('data/' + str(user.id) + 'save'):
-        type, file = LoadFromFile('data/' + str(user.id))
+        typeFile, file = LoadFromFile('data/' + str(user.id))
         del_ = True
     else:
         if not os.path.exists('data/' + str(user.id)):
             return HttpResponseRedirect('/load')
 
-        type, file = LoadFromFile('data/' + str(user.id))
+        typeFile, file = LoadFromFile('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
             print(req.POST['name'])
@@ -131,7 +132,7 @@ def Save(req):
 
     arr = []
     for i in Formats:
-        if i.type == type:
+        if i.type == typeFile:
             arr.append(i.name)
 
     return render(req, 'save.html', {'types': arr})
@@ -154,15 +155,15 @@ def Edit(req):
         if 'save' in req.POST:
             file = Istream('data/' + str(user.id))
             file.Next(3)
-            type = file.GetStr(1)
-            file = Types[type].LoadFunEdit(req.POST)
-            file.Save('data/' + str(user.id), type)
+            typeFile = file.GetStr(1)
+            file = Types[typeFile].LoadFunEdit(req.POST)
+            file.Save('data/' + str(user.id), typeFile)
         else:
-            type, file = LoadFromFile('data/' + str(user.id))
+            typeFile, file = LoadFromFile('data/' + str(user.id))
     else:
-        type, file = LoadFromFile('data/' + str(user.id))
+        typeFile, file = LoadFromFile('data/' + str(user.id))
 
-    return Types[type].FunEdit(req, file)
+    return Types[typeFile].FunEdit(req, file)
 
 
 def Transform(req):
@@ -178,26 +179,27 @@ def Transform(req):
     if not os.path.exists('data/' + str(user.id)):
         return HttpResponseRedirect('/load')
 
-    type, file = LoadFromFile('data/' + str(user.id))
+    typeFile, file = LoadFromFile('data/' + str(user.id))
 
     if req.method == 'POST':
         if 'go' in req.POST and 'why' in req.POST:
-            t = Types[type].GetTrans(req.POST['why'])
+            t = Types[typeFile].GetTrans(req.POST['why'])
             if not t is None:
                 t.funMain(file, req.POST).Save('data/' + str(user.id), req.POST['why'])
-                type, file = LoadFromFile('data/' + str(user.id))
+                typeFile, file = LoadFromFile('data/' + str(user.id))
         elif 'save' in req.POST and 'why' in req.POST:
-            t = Types[type].GetTrans(req.POST['why'])
+            t = Types[typeFile].GetTrans(req.POST['why'])
             if not t is None:
                 t.funMain(file, req.POST).Save('data/' + str(user.id) + 'save', req.POST['why'])
                 return HttpResponseRedirect('/save')
 
     arr = []
-    for i in Types[type].transform:
+    for i in Types[typeFile].transform:
         if i.funCan(file):
             arr.append({'where': i.where, 'html': i.GetHtmlOption(), 'name': Types[i.where].name})
 
-    return render(req, 'transform.html', {'types': arr, 'from': Types[type].name, 'ok': len(arr) > 0})
+    return render(req, 'transform.html', {'types': arr, 'from': Types[typeFile].name,
+                                          'ok': len(arr) > 0})
 
 
 def Index(req):
