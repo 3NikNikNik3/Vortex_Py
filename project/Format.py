@@ -69,15 +69,16 @@ Formats = [
     Format('.txt (utf-8) (codes)', Text.TxtFunToUtf8, Text.TxtFunFromUtf8, 'txt/text', '.txt', 102400),
     Format('.txt', Text.TxtFunToASCII, Text.TxtFunFromASCII, 'txt/text', '.txt', 102400),
     Format('(bytes)', Bin.BinTo, Bin.BinFrom, 'bin/bin', '', 10240),
-    Format('.html', Text.HtmlFunFromFile, Text.HtmlFunToFile, 'txt/html', '.html')
+    Format('.html', Text.HtmlFunFromFile, Text.HtmlFunToFile, 'txt/html', '.html', 102400)
 ]
 
 Types = {
     'txt/text': Type(Text.EditTxt, Text.TxtLoadFunEdit, Text.TxtType, 'Текст', NewFile(None, Text.NewFile),
-                     [Transform('bin/bin', lambda x: True, Bin.TxtToBin, None)]),
+                     [Transform('bin/bin', lambda x: True, Bin.TxtToBin, None),
+                      Transform('txt/html', lambda  x: True, Text.TextToHtml, None)]),
     'bin/bin': Type(Bin.Edit, Bin.EditToFile, Bin.BinType, 'Батник', NewFile(None, Bin.NewFile),
-                    [Transform('txt/text', lambda x: True, Bin.BinToTxt, 'bin/toTxt.html')])
-    'txt/html': Type(Text.EditHtml, Text.HtmlLoadFunEdit, Text.FileHtml, 'HTML файлы', [
+                    [Transform('txt/text', lambda x: True, Bin.BinToTxt, 'bin/toTxt.html')]),
+    'txt/html': Type(Text.EditHtml, Text.HtmlLoadFunEdit, Text.FileHtml, 'HTML файлы', NewFile(None, Text.NewFileHtml), [
         Transform('txt/text', lambda x: True, Text.HtmlToText, None)
     ])
 }

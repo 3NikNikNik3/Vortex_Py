@@ -63,9 +63,9 @@ def TxtLoadFunEdit(q):
 def EditTxt(req, file):
     return render(req, 'txt/editTxt.html', {'text': '\n' + file.data, 'sinte': file.type})
 
+
 def NewFile(req):
     return TxtType()
-
 
 
 def TextToHtml(file, post):
@@ -131,3 +131,24 @@ def EditHtml(req, file: FileHtml):
                                              'id':
                                                  User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[
                                                      0].id})
+
+
+def NewFileHtml(req):
+    ans = FileHtml()
+    ans.data = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page</title>
+</head>
+<body>
+
+</body>
+</html>'''
+    return ans
+
+
+def TextToHtml(file, post):
+    ans = FileHtml()
+    ans.data = file.data
+    return ans
