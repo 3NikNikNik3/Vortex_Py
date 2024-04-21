@@ -1,0 +1,38 @@
+body{
+	background-color: rgb(0, 0, 0);
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.button_bin {
+    background-color: #FF7200;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+.button_bin:hover {
+      background-color: #ff6000;
+}
+
+.scrol {
+    overflow-y: auto;
+    /*height: 90%;*/
+    scrollbar-width: thin;
+	display: flex;
+}
+
+.tab2 {
+	width: 41%;
+}
+
+.tab {
+	flex-grow: 1;
+}

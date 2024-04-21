@@ -63,6 +63,10 @@ def TxtLoadFunEdit(q):
 def EditTxt(req, file):
     return render(req, 'txt/editTxt.html', {'text': '\n' + file.data, 'sinte': file.type})
 
+def NewFile(req):
+    return TxtType()
+
+
 
 def TextToHtml(file, post):
     ans = FileHtml()

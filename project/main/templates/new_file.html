@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/load_front.css' %}">
+<head>
+    <meta charset="UTF-8">
+    <title>Новый файл</title>
+</head>
+<body>
+<div class="cent_part">
+    <h1 >Новый файл</h1><img src="/static/favicon.ico" height="50"
+    width="50" style="float:right; margin:-9% 2% 0 0">
+    <form method="post">
+        {% csrf_token %}
+        <span>Тип: </span>
+        <select name="type" id="type_select" onchange="ChangeType()">
+            {% for i in types %}
+                <option value="{{ i.id }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
+        <div id="dop_op"></div>
+        <br>
+        <input class="button" type="submit" value="Создать">
+    </form>
+
+    <div hidden>
+        {% for i in types %}
+            <div id="{{ i.id }}">{{ i.dop_op }}</div>
+        {% endfor %}
+    </div>
+    <script src="static/js/new_file.js"></script></div>
+</body>
+</html>

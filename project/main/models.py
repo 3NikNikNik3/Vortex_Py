@@ -4,4 +4,3 @@ from django.db import models
 
 class User(models.Model):
     key = models.CharField(max_length=500)
-    date_create = models.DateField()
