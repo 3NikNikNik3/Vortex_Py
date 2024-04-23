@@ -1,10 +1,12 @@
 """File Load"""
 
 from datetime import datetime
+import os
+
 
 class Istream:
     def __init__(self, path: str):
-        with open(path, 'rb') as file:
+        with open(os.path.normpath(path), 'rb') as file:
             self.data = file.read()
         self.index = 0
 
@@ -62,7 +64,7 @@ class Istream:
 
 class Ostream:
     def __init__(self, path: str):
-        self.file = open(path, 'wb')
+        self.file = open(os.path.normpath(path), 'wb')
 
     def write_char(self, char: int):
         self.file.write(bytes([char]))

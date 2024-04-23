@@ -26,7 +26,7 @@ class Format:
 
 def get_text_from_file(path: str) -> str:
     """get text from file"""
-    with open(f'project/main/templates/{path}', 'r', encoding="utf-8") as file:
+    with open(f'main/templates/{path}', 'r', encoding="utf-8") as file:
         data = file.read()
     return data
 
@@ -123,5 +123,5 @@ def load_from_file(path: str) -> (int, FileType):
     file.next(3)
     type_file = file.get_str(1)
     ans = Types[type_file].class_edit()
-    ans.Load(file)
+    ans.load(file)
     return type_file, ans

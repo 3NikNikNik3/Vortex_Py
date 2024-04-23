@@ -69,7 +69,7 @@ def load(req):
                 data += i
 
             file = f.fun_from(data)
-            file.save('data/' + str(user.id), f.type)
+            file.save('data/' + str(user.id), f.type_file)
             return HttpResponseRedirect('/edit')
         con['form'] = form
     else:
@@ -87,7 +87,7 @@ def new(req):
         arr.append({
             'name': Types[i].name,
             'id': i,
-            'dop_op': Types[i].new_file.GetHtmlOption()
+            'dop_op': Types[i].new_file.get_html_option()
         })
     con = {'types': arr}
 
@@ -144,7 +144,7 @@ def save(req):
 
     arr = []
     for i in Formats:
-        if i.type == type_file:
+        if i.type_file == type_file:
             arr.append(i.name)
 
     return render(req, 'save.html', {'types': arr})
@@ -212,7 +212,7 @@ def transform(req):
     arr = []
     for i in Types[type_file].transform:
         if i.fun_can(file):
-            arr.append({'where': i.where, 'html': i.GetHtmlOption(), 'name': Types[i.where].name})
+            arr.append({'where': i.where, 'html': i.get_html_option(), 'name': Types[i.where].name})
 
     return render(req, 'transform.html', {'types': arr, 'from': Types[type_file].name,
                                           'ok': len(arr) > 0})
