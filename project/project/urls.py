@@ -23,12 +23,12 @@ from main import views as main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', main.Index),
-    path('load', main.Load),
-    path('save', main.Save),
-    path('edit', main.Edit),
-    path('transform', main.Transform),
+    path('', main.index),
+    path('load', main.load),
+    path('save', main.save),
+    path('edit', main.edit),
+    path('transform', main.transform),
     path('doc', lambda x: render(x, 'doc.html')),
-    path('new', main.New),
+    path('new', main.new),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico', permanent=True))
 ]

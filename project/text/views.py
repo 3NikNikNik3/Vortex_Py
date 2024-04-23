@@ -1,8 +1,10 @@
+"""views main"""
+
 import os.path
 
 from django.http import HttpResponse
 from django.shortcuts import render
-from FileType import FileType, Istream, Ostream
+from file_type import FileType, Istream, Ostream
 
 from main.models import User
 
@@ -10,24 +12,34 @@ from main.models import User
 # txt
 
 class TxtType(FileType):
+    """File txt"""
+
     def __init__(self):
         self.data = ''
         self.type = 'null'
 
-    def Save_(self, file: Ostream):
-        file.WriteStr(self.type, 0)
-        file.WriteStrToEnd(self.data)
+    def save_(self, file: Ostream):
+        """save"""
 
-    def Load(self, file: Istream):
-        self.type = file.GetStr(0)
-        self.data = file.GetStrToEnd()
+        file.write_str(self.type, 0)
+        file.write_str_to_end(self.data)
+
+    def load(self, file: Istream):
+        """load"""
+
+        self.type = file.get_str(0)
+        self.data = file.get_str_to_end()
 
 
-def TxtFunToUtf8(file: TxtType):
+def txt_fun_to_utf8(file: TxtType) -> bytes:
+    """file to bytes utf8"""
+
     return file.data.encode('utf-8')
 
 
-def TxtFunToASCII(file: TxtType):
+def txt_fun_to_ascii(file: TxtType) -> bytes:
+    """file to bytes ascii"""
+
     ans = []
     for i in file.data:
         ans.append(ord(i))
@@ -37,7 +49,9 @@ def TxtFunToASCII(file: TxtType):
         return bytes([ord(i) for i in 'errorLoad'])
 
 
-def TxtFunFromUtf8(data: bytes):
+def txt_fun_from_utf8(data: bytes) -> TxtType:
+    """bytes utf8 to file"""
+
     ans = TxtType()
     try:
         ans.data = data.decode('utf-8')
@@ -46,14 +60,18 @@ def TxtFunFromUtf8(data: bytes):
     return ans
 
 
-def TxtFunFromASCII(data: bytes):
+def txt_fun_from_ascii(data: bytes) -> TxtType:
+    """bytes ascii to file"""
+
     ans = TxtType()
     for i in data:
         ans.data += chr(i)
     return ans
 
 
-def TxtLoadFunEdit(q):
+def txt_load_fun_edit(q):
+    """file from editor"""
+
     ans = TxtType()
     if 'text' in q and 'sinte' in q:
         ans.data = q['text']
@@ -61,21 +79,29 @@ def TxtLoadFunEdit(q):
     return ans
 
 
-def EditTxt(req, file):
+def edit_txt(req, file):
+    """page"""
+
     return render(req, 'txt/editTxt.html', {'text': '\n' + file.data, 'sinte': file.type})
 
 
-def NewFile(req):
+def new_file(req):
+    """new txt file"""
+
     return TxtType()
 
 
-def TextToHtml(file, post):
+def text_to_html(file, post):
+    """from txt to html"""
+
     ans = FileHtml()
     ans.data = file.data
     return ans
 
 
-def HtmlToText(file, post):
+def html_to_text(file, post):
+    """from html to txt"""
+
     ans = TxtType()
     ans.data = file.data
     return ans
@@ -83,17 +109,25 @@ def HtmlToText(file, post):
 
 # html
 class FileHtml(FileType):
+    """File html"""
+
     def __init__(self):
         self.data = ''
 
-    def Save_(self, file: Ostream):
-        file.WriteStrToEnd(self.data)
+    def save_(self, file: Ostream):
+        """save"""
 
-    def Load(self, file: Istream):
-        self.data = file.GetStrToEnd()
+        file.write_str_to_end(self.data)
+
+    def load(self, file: Istream):
+        """load"""
+
+        self.data = file.get_str_to_end()
 
 
-def HtmlFunToFile(data: bytes) -> FileHtml:
+def html_fun_to_file(data: bytes) -> FileHtml:
+    """bytes to file"""
+
     ans = FileHtml()
     try:
         ans.data = data.decode('utf-8')
@@ -102,39 +136,47 @@ def HtmlFunToFile(data: bytes) -> FileHtml:
     return ans
 
 
-def HtmlFunFromFile(file: FileHtml) -> bytes:
+def html_fun_from_file(file: FileHtml) -> bytes:
+    """file to bytes"""
+
     return file.data.encode('utf-8')
 
 
-def HtmlLoadFunEdit(q):
+def html_load_fun_edit(q):
+    """file from editor"""
+
     ans = FileHtml()
     ans.data = q['text']
     return ans
 
 
-def EditHtml(req, file: FileHtml):
+def edit_html(req, file: FileHtml):
+    """page"""
+
     if req.method == "POST":
         if 'delete_load' in req.POST:
             if os.path.exists('project/main/static/js/txt/data/' +
-                              str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[
-                                      0].id) + '.html'):
+                              str(User.objects.filter(key=req.get_signed_cookie('key_user',
+                                                      default=''))[0].id) + '.html'):
                 os.remove('project/main/static/js/txt/data/' +
-                          str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html')
+                          str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))
+                              [0].id) + '.html')
                 return HttpResponse(status=204)
         elif 'load' in req.POST and 'text' in req.POST:
             with open('project/main/static/js/txt/data/' +
-                      str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[0].id) + '.html',
-                      'w') as file_:
+                      str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))
+                          [0].id) + '.html', 'w', encoding="utf-8") as file_:
                 file_.write(req.POST['text'])
             return HttpResponse(status=204)
 
     return render(req, 'txt/editHtml.html', {'text': '\n' + file.data,
-                                             'id':
-                                                 User.objects.filter(key=req.get_signed_cookie('key_user', default=''))[
-                                                     0].id})
+                            'id': User.objects.filter(key=req.get_signed_cookie('key_user',
+                                                      default=''))[0].id})
 
 
-def NewFileHtml(req):
+def new_file_html(req):
+    """new html file"""
+
     ans = FileHtml()
     ans.data = '''<!DOCTYPE html>
 <html lang="en">
@@ -146,10 +188,4 @@ def NewFileHtml(req):
 
 </body>
 </html>'''
-    return ans
-
-
-def TextToHtml(file, post):
-    ans = FileHtml()
-    ans.data = file.data
     return ans

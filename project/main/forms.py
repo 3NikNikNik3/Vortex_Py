@@ -1,5 +1,5 @@
 from django import forms
-from Format import Formats
+from format import Formats
 
 TYPES = {'': 'Автоопределение'}
 for i in Formats:

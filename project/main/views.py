@@ -1,16 +1,20 @@
+"""views main"""
+
 import os.path
+from random import randint as rand
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
-from random import randint as rand
 from main.models import User
 from main.forms import LoadFile
-from Format import Get, LoadFromFile, Formats, Types
-from FileType import Istream
+from format import get, load_from_file, Formats, Types
+from file_type import Istream
 
 
 # Create your views here.
 def random_key() -> str:
+    """get random key"""
+
     arr = '1234567890qwertyuiopasdfghjklzxcvbnm'
     ans = ''
     for i in range(500):
@@ -19,6 +23,8 @@ def random_key() -> str:
 
 
 def get_random_key() -> str:
+    """get random key one"""
+
     key = random_key()
     while len(User.objects.filter(key=key)) != 0:
         key = random_key()
@@ -27,7 +33,9 @@ def get_random_key() -> str:
     return key
 
 
-def Load(req):
+def load(req):
+    """main load"""
+
     key = req.get_signed_cookie('key_user', default='')
     if key == '':
         ans = render(req, 'load.html', {'form': LoadFile(), 'error': False})
@@ -49,9 +57,9 @@ def Load(req):
                 user = user[0]
 
             if form.data['Type'] != '':
-                f = Get(form.data['Type'])
+                f = get(form.data['Type'])
             else:
-                f = Get('.' + str(req.FILES['File']).split('.')[-1])
+                f = get('.' + str(req.FILES['File']).rsplit('.', maxsplit=1)[-1])
 
             if req.FILES['File'].size > f.max_size != -1:
                 return render(req, 'load.html', {'form': LoadFile(), 'error': True}, status=413)
@@ -60,8 +68,8 @@ def Load(req):
             for i in req.FILES['File'].chunks():
                 data += i
 
-            file = f.funFrom(data)
-            file.Save('data/' + str(user.id), f.type)
+            file = f.fun_from(data)
+            file.save('data/' + str(user.id), f.type)
             return HttpResponseRedirect('/edit')
         con['form'] = form
     else:
@@ -71,7 +79,9 @@ def Load(req):
     return render(req, 'load.html', con)
 
 
-def New(req):
+def new(req):
+    """main create new file"""
+
     arr = []
     for i in Types:
         arr.append({
@@ -94,13 +104,15 @@ def New(req):
         if 'type' in req.POST:
             if req.POST['type'] in Types:
                 file = Types[req.POST['type']].new_file.fun(req.POST)
-                file.Save(f'data/{User.objects.filter(key=key)[0].id}', req.POST['type'])
+                file.save(f'data/{User.objects.filter(key=key)[0].id}', req.POST['type'])
                 return HttpResponseRedirect('/edit')
 
     return render(req, 'new_file.html', con)
 
 
-def Save(req):
+def save(req):
+    """main save file"""
+
     key = req.get_signed_cookie('key_user', default='')
     if key == '':
         return HttpResponseRedirect('/load')
@@ -112,33 +124,35 @@ def Save(req):
 
     del_ = False
     if os.path.exists('data/' + str(user.id) + 'save'):
-        typeFile, file = LoadFromFile('data/' + str(user.id))
+        type_file, file = load_from_file('data/' + str(user.id))
         del_ = True
     else:
         if not os.path.exists('data/' + str(user.id)):
             return HttpResponseRedirect('/load')
 
-        typeFile, file = LoadFromFile('data/' + str(user.id))
+        type_file, file = load_from_file('data/' + str(user.id))
     if req.method == 'POST':
         if 'type' in req.POST and 'name' in req.POST:
-            print(req.POST['name'])
-            f = Get(req.POST['type'])
-            res = HttpResponse(f.funTo(file), content_type='application/octet-stream')
+            f = get(req.POST['type'])
+            res = HttpResponse(f.fun_to(file), content_type='application/octet-stream')
             res['Content-Type'] = 'charset=utf-16'
             res['Content-Disposition'] = ('attachment; filename=' + req.POST['name'] +
                                           (f.ext if ('add_ras' in req.POST) else ''))
-            if del_: os.remove('data/' + str(user.id) + 'save')
+            if del_:
+                os.remove('data/' + str(user.id) + 'save')
             return res
 
     arr = []
     for i in Formats:
-        if i.type == typeFile:
+        if i.type == type_file:
             arr.append(i.name)
 
     return render(req, 'save.html', {'types': arr})
 
 
-def Edit(req):
+def edit(req):
+    """main edit file"""
+
     key = req.get_signed_cookie('key_user', default='')
     if key == '':
         return HttpResponseRedirect('/load')
@@ -154,19 +168,21 @@ def Edit(req):
     if req.method == 'POST':
         if 'save' in req.POST:
             file = Istream('data/' + str(user.id))
-            file.Next(3)
-            typeFile = file.GetStr(1)
-            file = Types[typeFile].LoadFunEdit(req.POST)
-            file.Save('data/' + str(user.id), typeFile)
+            file.next(3)
+            type_file = file.get_str(1)
+            file = Types[type_file].load_fun_edit(req.POST)
+            file.save('data/' + str(user.id), type_file)
         else:
-            typeFile, file = LoadFromFile('data/' + str(user.id))
+            type_file, file = load_from_file('data/' + str(user.id))
     else:
-        typeFile, file = LoadFromFile('data/' + str(user.id))
+        type_file, file = load_from_file('data/' + str(user.id))
 
-    return Types[typeFile].FunEdit(req, file)
+    return Types[type_file].fun_edit(req, file)
 
 
-def Transform(req):
+def transform(req):
+    """main transform file"""
+
     key = req.get_signed_cookie('key_user', default='')
     if key == '':
         return HttpResponseRedirect('/load')
@@ -179,28 +195,30 @@ def Transform(req):
     if not os.path.exists('data/' + str(user.id)):
         return HttpResponseRedirect('/load')
 
-    typeFile, file = LoadFromFile('data/' + str(user.id))
+    type_file, file = load_from_file('data/' + str(user.id))
 
     if req.method == 'POST':
         if 'go' in req.POST and 'why' in req.POST:
-            t = Types[typeFile].GetTrans(req.POST['why'])
-            if not t is None:
-                t.funMain(file, req.POST).Save('data/' + str(user.id), req.POST['why'])
-                typeFile, file = LoadFromFile('data/' + str(user.id))
+            t = Types[type_file].get_trans(req.POST['why'])
+            if t is not None:
+                t.fun_main(file, req.POST).save('data/' + str(user.id), req.POST['why'])
+                type_file, file = load_from_file('data/' + str(user.id))
         elif 'save' in req.POST and 'why' in req.POST:
-            t = Types[typeFile].GetTrans(req.POST['why'])
-            if not t is None:
-                t.funMain(file, req.POST).Save('data/' + str(user.id) + 'save', req.POST['why'])
+            t = Types[type_file].get_trans(req.POST['why'])
+            if t is not None:
+                t.fun_main(file, req.POST).save('data/' + str(user.id) + 'save', req.POST['why'])
                 return HttpResponseRedirect('/save')
 
     arr = []
-    for i in Types[typeFile].transform:
-        if i.funCan(file):
+    for i in Types[type_file].transform:
+        if i.fun_can(file):
             arr.append({'where': i.where, 'html': i.GetHtmlOption(), 'name': Types[i.where].name})
 
-    return render(req, 'transform.html', {'types': arr, 'from': Types[typeFile].name,
+    return render(req, 'transform.html', {'types': arr, 'from': Types[type_file].name,
                                           'ok': len(arr) > 0})
 
 
-def Index(req):
+def index(req):
+    """main index"""
+
     return render(req, 'index.html')
