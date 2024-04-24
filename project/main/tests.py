@@ -15,15 +15,15 @@ class TestCaseNotFile(TestCase):
 
     def test_page_save(self):
         res = self.c.get('/save')
-        self.assertRedirects(res, '/load')
+        self.assertEqual(res.url, '/load')
 
     def test_page_edit(self):
         res = self.c.get('/edit')
-        self.assertRedirects(res, '/load')
+        self.assertEqual(res.url, '/load')
 
     def test_page_transform(self):
         res = self.c.get('/transform')
-        self.assertRedirects(res, '/load')
+        self.assertEqual(res.url, '/load')
 
     def test_page_load(self):
         res = self.c.get('/load')
@@ -43,7 +43,7 @@ class TestCaseLoad(TestCase):
         self.c.cookies = SimpleCookie(self.cook)
         res = self.c.post('/load', {'File': SimpleUploadedFile('tests/1', b'file_content'),
                                     'Type': ''})
-        self.assertRedirects(res, '/edit')
+        self.assertEqual(res.url, '/edit')
 
     def test_bad_load_1(self):
         self.c.cookies = SimpleCookie(self.cook)
