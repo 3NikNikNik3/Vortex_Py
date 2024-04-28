@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render
-from FileType import FileType, Istream, Ostream
+from file_type import FileType, Istream, Ostream
 from text import views as Text
 
 
@@ -70,14 +70,14 @@ class FileJup(FileType):
     def __init__(self):
         self.data = CodeBlocks()
 
-    def Save_(self, file: Ostream):
-        file.WriteStrToEnd(json.dumps(self.data.block_code_to_json()))
+    def save_(self, file: Ostream):
+        file.write_str_to_end(json.dumps(self.data.block_code_to_json()))
 
-    def Load(self, file: Istream):
-        self.data = CodeBlocks.json_code_to_block(json.loads(file.GetStrToEnd()))
+    def load(self, file: Istream):
+        self.data = CodeBlocks.json_code_to_block(json.loads(file.get_str_to_end()))
 
 
-def JupFrom(data: bytes):
+def jup_from(data: bytes):
     ans = FileJup()
     try:
         ans.data = CodeBlocks.json_code_to_block(json.loads(data.decode()))
@@ -87,11 +87,11 @@ def JupFrom(data: bytes):
     return ans
 
 
-def JupTo(file: FileJup):
+def jup_to(file: FileJup):
     return json.dumps(file.data.block_code_to_json()).encode()
 
 
-def EditToFile(req):
+def edit_to_file(req):
     ans = FileJup()
     if 'count' in req:
         for i in range(int(req['count'])):
@@ -102,7 +102,7 @@ def EditToFile(req):
     return ans
 
 
-def Edit(req, file: FileJup):
+def edit(req, file: FileJup):
     con = {'count': len(file.data.blocks), 'metadata': file.data.metadata, 'type': 'none'}
     if 'python' in file.data.metadata:
         con['type'] = 'python'
@@ -115,7 +115,7 @@ def Edit(req, file: FileJup):
     return render(req, 'jupyter/edit.html', con)
 
 
-def NewFile(req):
+def new_file(req):
     ans = FileJup()
     ans.data.blocks.append(CodeBlock())
     return ans

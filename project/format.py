@@ -10,6 +10,7 @@ from file_type import FileType, Istream
 
 from text import views as Text
 from binary import views as Bin
+from jupyter import views as Jup
 
 
 @dataclass
@@ -90,7 +91,8 @@ Formats = [
            'txt/text', '.txt', 102400),
     Format('.txt', Text.txt_fun_to_ascii, Text.txt_fun_from_ascii, 'txt/text', '.txt', 102400),
     Format('(bytes)', Bin.bin_to, Bin.bin_from, 'bin/bin', '', 10240),
-    Format('.html', Text.html_fun_from_file, Text.html_fun_to_file, 'txt/html', '.html', 102400)
+    Format('.html', Text.html_fun_from_file, Text.html_fun_to_file, 'txt/html', '.html', 102400),
+    Format('.ipynb', Jup.jup_to, Jup.jup_from, 'jup/jup', '.ipynb', 102400)
 ]
 
 Types = {
@@ -103,7 +105,9 @@ Types = {
     'txt/html': Type(Text.edit_html, Text.html_load_fun_edit, Text.FileHtml, 'HTML файлы',
                      NewFile(None, Text.new_file_html), [
                          Transform('txt/text', lambda x: True, Text.html_to_text, None)
-                     ])
+                     ]),
+    'jup/jup': Type(Jup.edit, Jup.edit_to_file, Jup.FileJup, 'Юпитер-ноутбук', NewFile(None, Jup.new_file),
+                    [])
 }
 
 
