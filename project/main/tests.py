@@ -15,15 +15,15 @@ class TestCaseNotFile(TestCase):
 
     def test_page_save(self):
         res = self.c.get('/save')
-        self.assertEqual(res.url, '/load')
+        self.assertRedirects(res, '/load')
 
     def test_page_edit(self):
         res = self.c.get('/edit')
-        self.assertEqual(res.url, '/load')
+        self.assertRedirects(res, '/load')
 
     def test_page_transform(self):
         res = self.c.get('/transform')
-        self.assertEqual(res.url, '/load')
+        self.assertRedirects(res, '/load')
 
     def test_page_load(self):
         res = self.c.get('/load')
@@ -33,6 +33,7 @@ class TestCaseNotFile(TestCase):
 
 class TestCaseLoad(TestCase):
     fixtures = ['bd.json']
+
     def setUp(self):
         self.c = Client()
         res = self.c.get('/load')
@@ -43,7 +44,7 @@ class TestCaseLoad(TestCase):
         self.c.cookies = SimpleCookie(self.cook)
         res = self.c.post('/load', {'File': SimpleUploadedFile('tests/1', b'file_content'),
                                     'Type': ''})
-        self.assertEqual(res.url, '/edit')
+        self.assertRedirects(res, '/edit')
 
     def test_bad_load_1(self):
         self.c.cookies = SimpleCookie(self.cook)
@@ -60,6 +61,13 @@ class TestCaseLoad(TestCase):
         res = self.c.post('/load', {})
         self.assertNotEqual(res.status_code, 302)
 
+
+def load_file(path):
+    with open(path, 'rb') as file:
+        ans = SimpleUploadedFile('file', file.read())
+    return ans
+
+
 class TestCaseFileTxt(TestCase):
     fixtures = ['bd.json']
 
@@ -71,16 +79,16 @@ class TestCaseFileTxt(TestCase):
 
     def test_load(self):
         self.c.cookies = SimpleCookie(self.cook)
-        res = self.c.post('/load', {'File': SimpleUploadedFile('tests/1', b'file_content'),
+        res = self.c.post('/load', {'File': load_file('project/main/tests/1'),
                                     'Type': ''})
         res = self.c.get('/edit')
         self.assertEqual(res.status_code, 200)
         self.assertIn('text', res.context)
-        self.assertEqual(res.context['text'], '\ntest1\ttest2   test3')
+        self.assertEqual(res.context['text'], '\ntest1\n    test2\n   test3')
 
     def test_save(self):
         self.c.cookies = SimpleCookie(self.cook)
-        res = self.c.post('/load', {'File': SimpleUploadedFile('tests/1', b'file_content'),
+        res = self.c.post('/load', {'File': load_file('project/main/tests/1'),
                                     'Type': ''})
 
         res = self.c.post('/edit', {'save': '', 'text': 'test000', 'sinte': 'none'})
@@ -89,4 +97,88 @@ class TestCaseFileTxt(TestCase):
         res = self.c.get('/edit')
         self.assertEqual(res.status_code, 200)
         self.assertIn('text', res.context)
-        self.assertEqual(res.context['text'], 'test000')
+        self.assertEqual(res.context['text'], '\ntest000')
+
+
+class TestCaseFileHtml(TestCase):
+    fixtures = ['bd.json']
+
+    def setUp(self):
+        self.c = Client()
+        res = self.c.get('/load')
+        self.cook = {'key_user': res.client.cookies['key_user'],
+                     'csrftoken': res.client.cookies['csrftoken']}
+
+    def test_load(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/load', {'File': load_file('project/main/tests/2'),
+                                    'Type': 'txt/html'})
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('text', res.context)
+        self.assertEqual(res.context['text'], '''
+<html>
+    <body>
+        <p>test</p>
+    </body>
+</html>''')
+
+    def test_save(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/load', {'File': load_file('project/main/tests/2'),
+                                    'Type': '.html'})
+
+        res = self.c.post('/edit', {'save': '', 'text': 'test000'})
+        self.assertEqual(res.status_code, 200)
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('text', res.context)
+        self.assertEqual(res.context['text'], '\ntest000')
+
+
+class TestCaseFileByte(TestCase):
+    fixtures = ['bd.json']
+
+    def setUp(self):
+        self.c = Client()
+        res = self.c.get('/load')
+        self.cook = {'key_user': res.client.cookies['key_user'],
+                     'csrftoken': res.client.cookies['csrftoken']}
+
+    def test_load(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/load', {'File': load_file('project/main/tests/3'),
+                                    'Type': '(bytes)'})
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('data', res.context)
+        self.assertEqual(res.context['data'], '303031')
+
+    def test_save(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/load', {'File': load_file('project/main/tests/1'),
+                                    'Type': '(bytes)'})
+
+        res = self.c.post('/edit', {'save': '', 'bin': 'AAAA'})
+        self.assertEqual(res.status_code, 200)
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('data', res.context)
+        self.assertEqual(res.context['data'], 'AAAA')
+
+
+class TestCaseNewFile(TestCase):
+    fixtures = ['bd.json']
+
+    def setUp(self):
+        self.c = Client()
+        res = self.c.get('/load')
+        self.cook = {'key_user': res.client.cookies['key_user'],
+                     'csrftoken': res.client.cookies['csrftoken']}
+
+    def test_new(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.get('/new')
+        self.assertEqual(res.status_code, 200)

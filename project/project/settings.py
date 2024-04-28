@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 FIXTURE_DIRS = [
-    'main/tests'
+    'project/main/tests'
 ]
 
 

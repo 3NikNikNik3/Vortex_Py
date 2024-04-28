@@ -155,15 +155,15 @@ def edit_html(req, file: FileHtml):
 
     if req.method == "POST":
         if 'delete_load' in req.POST:
-            if os.path.exists(os.path.normpath('main/static/js/txt/data/' +
+            if os.path.exists(os.path.normpath('project/main/static/js/txt/data/' +
                               str(User.objects.filter(key=req.get_signed_cookie('key_user',
                                                       default=''))[0].id) + '.html')):
-                os.remove(os.path.normpath('main/static/js/txt/data/' +
+                os.remove(os.path.normpath('project/main/static/js/txt/data/' +
                           str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))
                               [0].id) + '.html'))
                 return HttpResponse(status=204)
         elif 'load' in req.POST and 'text' in req.POST:
-            with open(os.path.normpath('main/static/js/txt/data/' +
+            with open(os.path.normpath('project/main/static/js/txt/data/' +
                       str(User.objects.filter(key=req.get_signed_cookie('key_user', default=''))
                           [0].id) + '.html'), 'w', encoding="utf-8") as file_:
                 file_.write(req.POST['text'])

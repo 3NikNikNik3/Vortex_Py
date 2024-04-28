@@ -48,7 +48,7 @@ def load(req):
     con = {}
     if req.method == 'POST':
         form = LoadFile(req.POST, req.FILES)
-        if not form.is_valid():
+        if not form.is_valid() and 'Type' in form.data and 'File' in req.FILES:
             user = User.objects.filter(key=key)
             if len(user) != 1:
                 user = User(key=key)
