@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Jupyter Notebook</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/jupyter/edit.css' %}">
+</head>
+<body>
+    {% include "menu_edit.html" %}
+    <select id="style" onchange="SelectStyle()">
+        <option value="null" {% if type == "none" %} selected {% endif %}>Без</option>
+        <option value="python" {% if type == "python" %} selected {% endif %}>Python/Cython</option>
+        <option value="javascript" {% if sinte == "javascript" %} selected {% endif %}>JavaScript/TypeScript/JSON/JSON-LD</option>
+    </select>
+    <table id="table_main" style=" font-weight: bold;"></table>
+    <button onclick="add('')" class="but">+</button>
+
+    <form id="main_form" method="post" hidden>
+        {% csrf_token %}
+        <input name="save">
+        <input name="metadata" type="text" value="{{ metadata }}">
+    </form>
+
+    <div hidden>
+        <span id="input_count">{{ count }}</span>
+        {% for i in blocks %}
+            <span id="input_{{ i.id }}">{{ i.value }}</span>
+        {% endfor %}
+    </div>
+
+    <script src="{% static 'js/txt/lib/codemirror.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'js/txt/lib/codemirror.css' %}">
+    <script src="{% static 'js/txt/mode/javascript/javascript.js' %}"></script>
+    <script src="{% static 'js/txt/mode/python/python.js' %}"></script>
+    <script src="{% static 'js/jupyter/edit.js' %}"></script>
+</body>
+</html>
