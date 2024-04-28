@@ -3,5 +3,30 @@ body {
 }
 
 .but {
+    width: 25px;
+    border-radius: 50%;
+}
+.but {
+    margin-bottom: 5px;
+    border: none;
+    color: #FFFFFF;
+    background: none;
+    font-size: 17px;
+}
 
+.but:hover {
+    border: none;
+    color: #FF7200;
+    font-size: 17px;
+    transition: 0.5s;
+}
+
+.stol {
+    width: 31px;
+}
+
+select {
+    background-color: #333333;
+    color: #eeeeee;
+    border-color: #111111;
 }

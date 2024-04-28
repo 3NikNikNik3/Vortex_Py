@@ -5,6 +5,7 @@ function add(text) {
     w.id = 'tr_' + arr.length.toString()
     table_main.append(w)
     let e = document.createElement('td')
+    e.classList.add('stol')
     w.append(e)
     e.innerHTML = `<p style='color: white'>${arr.length}</p><button class="but" onclick="Up(${arr.length})">↑</button><button class="but" onclick="Del(${arr.length})">-</button><button class="but" onclick="Down(${arr.length})">↓</button>`
     e = document.createElement('td')

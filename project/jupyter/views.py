@@ -45,7 +45,7 @@ class CodeBlocks:
             }
             json_data["cells"].append(cell_data)
 
-        json_data["metadata"] = json.loads(self.metadata)
+        json_data["metadata"] = json.dumps(self.metadata)
 
         json_data["nbformat"] = 4
         json_data["nbformat_minor"] = 5
@@ -61,7 +61,7 @@ class CodeBlocks:
                 block = CodeBlock.json_code_to_block(cell)
                 blocks.append(block)
         if "metadata" in json_data:
-            metadata = json.dumps(json_data['metadata'])
+            metadata = json.loads(json_data['metadata'])
 
         return cls(blocks, metadata)
 
