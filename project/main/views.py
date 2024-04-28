@@ -94,7 +94,7 @@ def new(req):
     key = req.get_signed_cookie('key_user', default='')
     if key == '':
         ans = render(req, 'new_file.html')
-        ans.set_signed_cookie('key_user', get_random_key(), con)
+        ans.set_signed_cookie('key_user', get_random_key())
         return ans
     if len(User.objects.filter(key=key)) == 0:
         user = User(key=key)

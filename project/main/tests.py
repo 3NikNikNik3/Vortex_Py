@@ -182,3 +182,43 @@ class TestCaseNewFile(TestCase):
         self.c.cookies = SimpleCookie(self.cook)
         res = self.c.get('/new')
         self.assertEqual(res.status_code, 200)
+
+    def test_new_txt(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/new', {'type': 'txt/text'})
+        self.assertRedirects(res, '/edit')
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('text', res.context)
+        self.assertEqual(res.context['text'], '\n')
+
+    def test_new_html(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/new', {'type': 'txt/html'})
+        self.assertRedirects(res, '/edit')
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('text', res.context)
+        self.assertEqual(res.context['text'], '''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page</title>
+</head>
+<body>
+
+</body>
+</html>''')
+
+    def test_new_bin(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/new', {'type': 'bin/bin'})
+        self.assertRedirects(res, '/edit')
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('data', res.context)
+        self.assertEqual(res.context['data'], '00')
