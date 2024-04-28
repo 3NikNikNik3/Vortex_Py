@@ -64,6 +64,12 @@ function Del(id) {
         add('')
 }
 
+function SelectStyle() {
+    for (let i = 0; i < arr.length; ++i) {
+        arr[i].setOption('mode', style.value)
+    }
+}
+
 function SAVE() {
     let q = document.createElement('input')
     q.type = 'text'
@@ -81,3 +87,5 @@ function SAVE() {
 }
 
 save.onclick = SAVE
+
+SelectStyle()

@@ -26,8 +26,9 @@ class CodeBlock:
 
 
 class CodeBlocks:
-    def __init__(self, blocks=None):
+    def __init__(self, blocks=None, metadata=None):
         self.blocks = blocks if blocks is not None else []
+        self.metadata = metadata if metadata is not None else {}
 
     def block_code_to_json(self):
         json_data = {
@@ -44,6 +45,8 @@ class CodeBlocks:
             }
             json_data["cells"].append(cell_data)
 
+        json_data["metadata"] = json.loads(self.metadata)
+
         json_data["nbformat"] = 4
         json_data["nbformat_minor"] = 5
 
@@ -52,12 +55,15 @@ class CodeBlocks:
     @classmethod
     def json_code_to_block(cls, json_data):
         blocks = []
+        metadata = {}
         if "cells" in json_data:
             for cell in json_data["cells"]:
                 block = CodeBlock.json_code_to_block(cell)
                 blocks.append(block)
+        if "metadata" in json_data:
+            metadata = json.dumps(json_data['metadata'])
 
-        return cls(blocks)
+        return cls(blocks, metadata)
 
 
 class FileJup(FileType):
@@ -91,17 +97,22 @@ def EditToFile(req):
         for i in range(int(req['count'])):
             if f'block_{i}' in req:
                 ans.data.blocks.append(CodeBlock(req[f'block_{i}']))
+    if 'metadata' in req:
+        ans.data.metadata = req['metadata']
     return ans
 
 
 def Edit(req, file: FileJup):
-    con = {'count': len(file.data.blocks)}
+    con = {'count': len(file.data.blocks), 'metadata': file.data.metadata, 'type': 'none'}
+    if 'python' in file.data.metadata:
+        con['type'] = 'python'
+    elif 'javascript' in file.data.metadata:
+        con['type'] = 'javascript'
     arr = []
     for i in range(len(file.data.blocks)):
         arr.append({'id': i, 'value': file.data.blocks[i].source})
     con.update({'blocks': arr})
     return render(req, 'jupyter/edit.html', con)
-
 
 
 def NewFile(req):
