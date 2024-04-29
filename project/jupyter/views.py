@@ -1,3 +1,5 @@
+"""jupyter notebook"""
+
 import json
 from django.shortcuts import render
 from file_type import FileType, Istream, Ostream
@@ -5,10 +7,14 @@ from text import views as Text
 
 
 class CodeBlock:
+    """code block"""
+
     def __init__(self, source=""):
         self.source = source
 
     def block_code_to_json(self):
+        """block to json"""
+
         ans = []
         for i in self.source.split('\n'):
             ans.append(i + '\n')
@@ -17,20 +23,23 @@ class CodeBlock:
 
     @classmethod
     def json_code_to_block(cls, json_data):
-        if type(json_data.get("source", "")) == list:
-            ans = ''
-            for i in json_data.get("source", ""):
-                ans += i
-            return cls(ans)
+        """json to block"""
+
+        if isinstance(json_data.get("source", ""), list):
+            return cls(''.join(json_data.get("source", "")))
         return cls(json_data.get("source", ""))
 
 
 class CodeBlocks:
+    """code blocks"""
+
     def __init__(self, blocks=None, metadata=None):
         self.blocks = blocks if blocks is not None else []
         self.metadata = metadata if metadata is not None else {}
 
     def block_code_to_json(self):
+        """blocks to json"""
+
         json_data = {
             "cells": []
         }
@@ -54,6 +63,8 @@ class CodeBlocks:
 
     @classmethod
     def json_code_to_block(cls, json_data):
+        """json to block"""
+
         blocks = []
         metadata = {}
         if "cells" in json_data:
@@ -67,17 +78,25 @@ class CodeBlocks:
 
 
 class FileJup(FileType):
+    """main file"""
+
     def __init__(self):
         self.data = CodeBlocks()
 
     def save_(self, file: Ostream):
+        """save"""
+
         file.write_str_to_end(json.dumps(self.data.block_code_to_json()))
 
     def load(self, file: Istream):
+        """load"""
+
         self.data = CodeBlocks.json_code_to_block(json.loads(file.get_str_to_end()))
 
 
-def jup_from(data: bytes):
+def jup_from(data: bytes) -> FileJup:
+    """from bytes"""
+
     ans = FileJup()
     try:
         ans.data = CodeBlocks.json_code_to_block(json.loads(data.decode()))
@@ -87,11 +106,15 @@ def jup_from(data: bytes):
     return ans
 
 
-def jup_to(file: FileJup):
+def jup_to(file: FileJup) -> bytes:
+    """to bytes"""
+
     return json.dumps(file.data.block_code_to_json()).encode()
 
 
-def edit_to_file(req):
+def edit_to_file(req) -> FileJup:
+    """from editor"""
+
     ans = FileJup()
     if 'count' in req:
         for i in range(int(req['count'])):
@@ -103,37 +126,23 @@ def edit_to_file(req):
 
 
 def edit(req, file: FileJup):
+    """page edit"""
+
     con = {'count': len(file.data.blocks), 'metadata': file.data.metadata, 'type': 'none'}
     if 'python' in file.data.metadata:
         con['type'] = 'python'
     elif 'javascript' in file.data.metadata:
         con['type'] = 'javascript'
     arr = []
-    for i in range(len(file.data.blocks)):
-        arr.append({'id': i, 'value': file.data.blocks[i].source})
+    for i, val in enumerate(file.data.blocks):
+        arr.append({'id': i, 'value': val.source})
     con.update({'blocks': arr})
     return render(req, 'jupyter/edit.html', con)
 
 
-def new_file(req):
+def new_file(req) -> FileJup:
+    """create new file"""
+
     ans = FileJup()
     ans.data.blocks.append(CodeBlock())
     return ans
-
-
-'''with open('test.json', 'r') as file: # читаем предложенный файл 'test.json'
-    json_data = json.load(file)
-
-code_blocks = CodeBlocks.json_code_to_block(json_data) # Функция из json в класс
-
-# Пример вывода блоков:
-for block in code_blocks.blocks:
-    print(block)
-# Ну и инфы по файлу:
-print("Additional Data:", code_blocks.additional_data)
-
-json_output = code_blocks.block_code_to_json() # Функция из класса в json
-
-# Пример преобразоывания в файл 'output.json'
-with open('output.json', 'w') as output_file:
-    json.dump(json_output, output_file, indent=2)'''

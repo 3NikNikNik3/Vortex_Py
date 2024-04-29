@@ -222,3 +222,19 @@ class TestCaseNewFile(TestCase):
         self.assertEqual(res.status_code, 200)
         self.assertIn('data', res.context)
         self.assertEqual(res.context['data'], '00')
+
+    def test_new_jup(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/new', {'type': 'jup/jup'})
+        self.assertRedirects(res, '/edit')
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('count', res.context)
+        self.assertEqual(res.context['count'], 1)
+        self.assertIn('metadata', res.context)
+        self.assertEqual(res.context['metadata'], {})
+        self.assertIn('type', res.context)
+        self.assertEqual(res.context['type'], 'none')
+        self.assertIn('blocks', res.context)
+        self.assertEqual(res.context['blocks'], [{'id': 0, 'value': ''}])
