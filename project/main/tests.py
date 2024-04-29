@@ -1,3 +1,5 @@
+import json
+
 from django.test import TestCase, Client
 from http.cookies import SimpleCookie
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -169,6 +171,75 @@ class TestCaseFileByte(TestCase):
         self.assertEqual(res.context['data'], 'AAAA')
 
 
+class TestCaseFileJupyter(TestCase):
+    fixtures = ['bd.json']
+
+    def setUp(self):
+        self.c = Client()
+        res = self.c.get('/load')
+        self.cook = {'key_user': res.client.cookies['key_user'],
+                     'csrftoken': res.client.cookies['csrftoken']}
+
+    def test_load(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/load', {'File': load_file('project/main/tests/4'),
+                                    'Type': '.ipynb'})
+        self.assertRedirects(res, '/edit')
+
+        res = self.c.get('/edit')
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('count', res.context)
+        self.assertEqual(res.context['count'], 2)
+        self.assertIn('metadata', res.context)
+        self.assertEqual(res.context['metadata'], json.dumps({
+            "kernelspec": {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3"
+            },
+            "language_info": {
+                "codemirror_mode": {
+                    "name": "ipython",
+                    "version": 3
+                },
+                "file_extension": ".py",
+                "mimetype": "text/x-python",
+                "name": "python",
+                "nbconvert_exporter": "python",
+                "pygments_lexer": "ipython3",
+                "version": "3.10.12"
+            }}))
+        self.assertIn('type', res.context)
+        self.assertEqual(res.context['type'], 'python')
+        self.assertIn('blocks', res.context)
+        self.assertEqual(res.context['blocks'], [{'id': 0, 'value': 'import os'},
+                                                 {'id': 1, 'value': 'os.exit(0)'}])
+
+    def test_save(self):
+        self.c.cookies = SimpleCookie(self.cook)
+        res = self.c.post('/load', {'File': load_file('project/main/tests/4'),
+                                    'Type': '.ipynb'})
+        self.assertRedirects(res, '/edit')
+
+        res = self.c.post('/edit', {'count': 3, 'block_0': 'let q = 0',
+                                    'block_1': 'q = 1', 'block_2': 'alert(q)',
+                                    'metadata': '{"language_info": {"name": "javascript"}}',
+                                    'save': ''})
+        self.assertEqual(res.status_code, 200)
+        self.assertIn('count', res.context)
+        self.assertEqual(res.context['count'], 3)
+        self.assertIn('metadata', res.context)
+        self.assertEqual(res.context['metadata'], json.dumps({'language_info': {'name': 'javascript'}}))
+        self.assertIn('type', res.context)
+        self.assertEqual(res.context['type'], 'javascript')
+        self.assertIn('blocks', res.context)
+        self.assertEqual(res.context['blocks'], [
+            {'id': 0, 'value': 'let q = 0'},
+            {'id': 1, 'value': 'q = 1'},
+            {'id': 2, 'value': 'alert(q)'}
+        ])
+
+
 class TestCaseNewFile(TestCase):
     fixtures = ['bd.json']
 
@@ -233,7 +304,7 @@ class TestCaseNewFile(TestCase):
         self.assertIn('count', res.context)
         self.assertEqual(res.context['count'], 1)
         self.assertIn('metadata', res.context)
-        self.assertEqual(res.context['metadata'], {})
+        self.assertEqual(res.context['metadata'], '{}')
         self.assertIn('type', res.context)
         self.assertEqual(res.context['type'], 'none')
         self.assertIn('blocks', res.context)
