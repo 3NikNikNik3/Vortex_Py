@@ -245,7 +245,7 @@ class TestCaseNewFile(TestCase):
 
     def setUp(self):
         self.c = Client()
-        res = self.c.get('/load')
+        res = self.c.get('/new')
         self.cook = {'key_user': res.client.cookies['key_user'],
                      'csrftoken': res.client.cookies['csrftoken']}
 

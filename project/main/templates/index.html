@@ -42,9 +42,7 @@
         <ol>
             <li>Скачиваем саму программу (<a href="https://gitlab.informatics.ru/2023-2024/korolev/s101/vortex_py">https://gitlab.informatics.ru/2023-2024/korolev/s101/vortex_py</a>)</li><br>
             <li>Устанавливаем python 3.10</li><br>
-            <li>Устанавливаем все необходимые библиотеки: <ul>
-                <li>Django 5.0.2 (<span class="copy_text" onclick="COPY_TEXT('pip3 install django==5.0.2')">pip3 install django==5.0.2</span>)</li>
-            </ul></li><br>
+            <li>Устанавливаем все необходимые библиотеки: <span class="copy_text" onclick="COPY_TEXT('pip3 install -r requirements.txt')">pip3 install -r requirements.txt</span></li><br>
             <li>Из папки проекта (vortex_py) запускаем команду <span class="copy_text" onclick="COPY_TEXT('python3 project/manage.py runserver ID:PORT')">python3 project/manage.py runserver ID:PORT</span>. Вместо IP - ip адрес, а вместо PORT - порт, с которых будет запущен сервер.<br>
             Если Вы хотите просто запустить в локальной сети, то <span class="copy_text" onclick="COPY_TEXT('python3 project/manage.py runserver')">python3 project/manage.py runserver</span></li><br>
             <li>Всё готово, переходите по своему адресу (или <a href="localhost:8000">localhost:8000</a>)</li>
