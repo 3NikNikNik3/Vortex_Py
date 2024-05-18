@@ -27,7 +27,7 @@ class Format:
 
 def get_text_from_file(path: str) -> str:
     """get text from file"""
-    with open(f'main/templates/{path}', 'r', encoding="utf-8") as file:
+    with open(f'project/main/templates/{path}', 'r', encoding="utf-8") as file:
         data = file.read()
     return data
 
