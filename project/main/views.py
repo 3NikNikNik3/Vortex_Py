@@ -123,8 +123,9 @@ def save(req):
     user = user[0]
 
     del_ = False
-    if os.path.exists('data/' + str(user.id) + 'save'):
-        type_file, file = load_from_file('data/' + str(user.id))
+    print(os.path.exists(f'data/{user.id}save'))
+    if os.path.exists(f'data/{user.id}save'):
+        type_file, file = load_from_file(f'data/{user.id}save')
         del_ = True
     else:
         if not os.path.exists('data/' + str(user.id)):
