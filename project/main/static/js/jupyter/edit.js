@@ -14,7 +14,7 @@ function add(text) {
 
     let el = CodeMirror(q, {
              value: text,
-             mode: "text/x-csrc",
+             mode: style.value,
              lineNumbers: true
             })
     el.setSize(window.screen.width - q.getBoundingClientRect().x - 75, null)
@@ -78,8 +78,7 @@ function SAVE() {
     q.value = arr.length.toString()
     main_form.append(q)
     for (let i = 0; i < arr.length; ++i) {
-        q = document.createElement('input')
-        q.type = 'text'
+        q = document.createElement('textarea')
         q.name = 'block_' + i.toString()
         q.value = arr[i].getValue()
         main_form.append(q)
