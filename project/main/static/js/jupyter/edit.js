@@ -15,9 +15,12 @@ function add(text) {
     let el = CodeMirror(q, {
              value: text,
              mode: style.value,
-             lineNumbers: true
+             lineNumbers: true,
+             indentUnit: 4,
+             viewportMargin: Infinity,
             })
-    el.setSize(window.screen.width - q.getBoundingClientRect().x - 75, null)
+    //el.theme({'&': {  }})
+    el.setSize(window.screen.width - q.getBoundingClientRect().x - 75, "auto")
     el.addKeyMap({'Ctrl-S': SAVE})
     arr.push(el)
 }

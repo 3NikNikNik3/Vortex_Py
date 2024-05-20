@@ -30,3 +30,8 @@ select {
     color: #eeeeee;
     border-color: #111111;
 }
+
+.CodeMirror {
+  height: auto;
+  viewportMargin: Infinity;
+}
